@@ -1,16 +1,25 @@
-# Prompt upload kết quả
+# Hai prompt xây dựng giao diện
 
-**[Context]** Tôi đang xây dựng một trang web giới thiệu xưởng in letterpress thủ công Blakletterpress bằng HTML và CSS. Trang gốc nằm trong thư mục `BaiTapCSS`, có sẵn nội dung tiếng Việt và các hình ảnh trong thư mục `images`. Tôi cần triển khai hai phiên bản giao diện từ cùng một nội dung: một phiên bản dùng CSS thông thường và một phiên bản dùng Tailwind CSS.
+## Prompt 1: CSS thông thường
 
-**[Role]** Bạn là một lập trình viên Front-end lão luyện, có kinh nghiệm xây dựng giao diện responsive và triển khai website tĩnh.
+**[Context]** Tôi đang làm một trang web giới thiệu xưởng in letterpress thủ công có tên Blakletterpress bằng HTML và CSS đơn giản. File HTML gốc đã có sẵn nội dung tiếng Việt, gồm phần giới thiệu, ảnh đội ngũ, giá trị cốt lõi, thông tin đội ngũ, form liên hệ, bài viết gần đây và footer. Các hình ảnh cần dùng nằm trong thư mục `images`. Ảnh minh họa giao diện nằm ở `BaiTapCSS/Ex.png`.
 
-**[Action]** Hãy xây dựng CSS cho trang HTML sao cho giao diện khớp với ảnh minh họa `Ex.png`: header màu đen có tên thương hiệu và tagline, thanh điều hướng, bố cục nội dung chính hai cột với sidebar, ảnh giới thiệu, các thẻ Giá trị cốt lõi, các thẻ Đội ngũ, biểu mẫu Liên hệ và footer màu đen. Hãy tạo hai cách triển khai độc lập: CSS thông thường và Tailwind CSS. Giữ nguyên nội dung, đường dẫn ảnh và cấu trúc ngữ nghĩa của trang; giao diện phải responsive trên máy tính và điện thoại. Sau khi hoàn tất, hướng dẫn cách đưa toàn bộ các file HTML, CSS và thư mục ảnh lên một host miễn phí.
+**[Role]** Bạn là một lập trình viên Front-end lão luyện, chuyên xây dựng giao diện website tĩnh có bố cục rõ ràng và responsive.
 
-**[Format]** Trả về mã nguồn sạch sẽ của các file HTML/CSS cần thiết. Tách rõ phiên bản CSS thông thường và phiên bản Tailwind CSS. Có comment ngắn bằng tiếng Việt ở những phần thực sự cần giải thích. Kèm hướng dẫn ngắn để kiểm tra hai phiên bản sau khi upload.
+**[Action]** Hãy xây dựng giao diện cho trang HTML bằng CSS thông thường, không sử dụng framework CSS. Bám sát ảnh minh họa `Ex.png`: header màu đen có tên thương hiệu và tagline, thanh điều hướng tối, phần nội dung được căn giữa với bố cục hai cột, sidebar bài viết gần đây, ảnh giới thiệu lớn, các thẻ Giá trị cốt lõi, các thẻ Đội ngũ, form Liên hệ và footer màu đen. Giữ nguyên nội dung, cấu trúc HTML có sẵn và đường dẫn tương đối đến thư mục `images`. Bổ sung responsive để trang hiển thị tốt trên máy tính và điện thoại.
 
-**[Target]** Giao diện tối giản, dễ đọc, có màu nền sáng, header/footer tối, nội dung được căn giữa và có khoảng cách giống ảnh minh họa. Hai phiên bản phải hiển thị tương đương nhau, ảnh không bị méo, form dễ sử dụng và không phát sinh thanh cuộn ngang trên màn hình nhỏ.
+**[Format]** Trả về hai file mã nguồn hoàn chỉnh: `trang-goc.html` và `style.css`. File HTML phải liên kết đúng với `style.css`, sử dụng HTML semantic và không viết CSS trực tiếp trong thuộc tính `style`. Có comment ngắn bằng tiếng Việt ở những phần CSS cần giải thích.
 
-## Link sau khi upload
+**[Target]** Giao diện tối giản, dễ đọc, nền sáng, header và footer tối, màu nhấn vàng/nâu nhẹ, nội dung căn giữa, khoảng cách và tỷ lệ gần giống ảnh minh họa. Ảnh phải hiển thị đúng tỷ lệ, form dễ sử dụng và không xuất hiện thanh cuộn ngang trên màn hình nhỏ.
 
-- Phiên bản CSS thường: `DÁN_LINK_HOST_MIỄN_PHÍ_TẠI_ĐÂY/trang-goc.html`
-- Phiên bản Tailwind: `DÁN_LINK_HOST_MIỄN_PHÍ_TẠI_ĐÂY/trang-tailwind.html`
+## Prompt 2: Tailwind CSS
+
+**[Context]** Tôi đang làm một trang web giới thiệu xưởng in letterpress thủ công có tên Blakletterpress bằng HTML. File HTML gốc đã có sẵn nội dung tiếng Việt, gồm phần giới thiệu, ảnh đội ngũ, giá trị cốt lõi, thông tin đội ngũ, form liên hệ, bài viết gần đây và footer. Các hình ảnh cần dùng nằm trong thư mục `images`. Ảnh minh họa giao diện nằm ở `BaiTapCSS/Ex.png`.
+
+**[Role]** Bạn là một lập trình viên Front-end lão luyện, có kinh nghiệm sử dụng Tailwind CSS để xây dựng website tĩnh responsive.
+
+**[Action]** Hãy xây dựng một phiên bản giao diện độc lập bằng Tailwind CSS. Sử dụng Tailwind CSS qua CDN trong file HTML để có thể mở trực tiếp mà không cần bước build. Bám sát ảnh minh họa `Ex.png`: header màu đen có tên thương hiệu và tagline, thanh điều hướng tối, phần nội dung được căn giữa với bố cục hai cột, sidebar bài viết gần đây, ảnh giới thiệu lớn, các thẻ Giá trị cốt lõi, các thẻ Đội ngũ, form Liên hệ và footer màu đen. Giữ nguyên nội dung, cấu trúc HTML semantic và đường dẫn tương đối đến thư mục `images`. Bổ sung các class responsive của Tailwind để trang hiển thị tốt trên máy tính và điện thoại.
+
+**[Format]** Trả về một file mã nguồn hoàn chỉnh tên `trang-tailwind.html`. File phải chứa đầy đủ nội dung HTML, liên kết Tailwind CSS CDN trong phần `head` và dùng class Tailwind trực tiếp trên các phần tử. Không tạo thêm file CSS riêng nếu không thực sự cần thiết. Có comment ngắn bằng tiếng Việt ở những phần HTML cần giải thích.
+
+**[Target]** Giao diện tối giản, dễ đọc, nền sáng, header và footer tối, màu nhấn vàng/nâu nhẹ, nội dung căn giữa, khoảng cách và tỷ lệ gần giống ảnh minh họa. Hai phiên bản phải có giao diện tương đương nhau; ảnh phải hiển thị đúng tỷ lệ, form dễ sử dụng và không xuất hiện thanh cuộn ngang trên màn hình nhỏ.
