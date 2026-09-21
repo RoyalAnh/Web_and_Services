@@ -1,0 +1,284 @@
+* {
+	box-sizing: border-box;
+}
+
+html {
+	font-size: 12px;
+}
+
+body {
+	margin: 0;
+	color: #333;
+	background: #f7f6f2;
+	font-family: Arial, Helvetica, sans-serif;
+	line-height: 1.45;
+}
+
+a {
+	color: #1e4b8f;
+}
+
+.site-header {
+	color: #fff;
+	background: #1d1d1d;
+	text-align: center;
+}
+
+.site-name {
+	display: block;
+	padding: 8px 16px 0;
+	color: #fff;
+	font-family: Georgia, 'Times New Roman', serif;
+	font-size: 1.5rem;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+.tagline {
+	margin: 0 0 8px;
+	color: #d5c49e;
+	font-family: Georgia, 'Times New Roman', serif;
+	font-size: .72rem;
+	font-style: italic;
+}
+
+.main-nav {
+	background: #111;
+}
+
+.main-nav ul,
+.footer-cols,
+.value-list,
+.team-list,
+.recent {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.main-nav ul {
+	display: flex;
+	justify-content: center;
+	gap: 22px;
+	padding: 6px 16px;
+}
+
+.main-nav a {
+	color: #eee;
+	font-size: .7rem;
+	text-decoration: none;
+}
+
+.layout {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) 205px;
+	gap: 16px;
+	width: min(780px, calc(100% - 32px));
+	margin: 0 auto;
+	padding: 28px 0 42px;
+}
+
+main h1,
+main h2,
+.sidebar h2 {
+	margin: 0 0 12px;
+	color: #222;
+	font-size: 1.1rem;
+}
+
+main h1 {
+	font-size: 1.35rem;
+}
+
+main h3,
+.site-footer h3 {
+	margin: 0 0 6px;
+	color: #222;
+	font-size: .82rem;
+}
+
+article,
+section {
+	margin-bottom: 22px;
+}
+
+figure {
+	margin: 0 0 10px;
+}
+
+figure img {
+	display: block;
+	width: 100%;
+	height: auto;
+}
+
+figcaption {
+	margin-top: 3px;
+	color: #777;
+	font-size: .63rem;
+}
+
+p {
+	margin: 0 0 8px;
+}
+
+article p {
+	font-size: .76rem;
+}
+
+.sidebar {
+	align-self: start;
+	padding: 15px;
+	background: #eeeae1;
+	border-radius: 3px;
+}
+
+.sidebar h2 {
+	font-size: 1rem;
+}
+
+.recent {
+	padding-left: 14px;
+	list-style: disc;
+}
+
+.recent li,
+.sidebar p {
+	font-size: .72rem;
+}
+
+.value-list,
+.team-list {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 12px;
+}
+
+.value-card,
+.member,
+.contact-form {
+	padding: 12px;
+	background: #fff;
+	border: 1px solid #e6e1d8;
+	border-radius: 3px;
+}
+
+.value-card p,
+.member p {
+	font-size: .7rem;
+}
+
+.member img {
+	display: block;
+	width: 66px;
+	height: 66px;
+	margin: 0 auto 9px;
+	border-radius: 50%;
+	object-fit: cover;
+}
+
+.member h3,
+.member p {
+	text-align: center;
+}
+
+.contact-form {
+	width: 320px;
+	max-width: 100%;
+}
+
+.contact-form p {
+	margin-bottom: 9px;
+}
+
+label {
+	display: inline-block;
+	margin-bottom: 3px;
+	font-size: .7rem;
+}
+
+input,
+textarea {
+	display: block;
+	width: 100%;
+	padding: 6px;
+	font: inherit;
+	background: #fff;
+	border: 1px solid #dedbd3;
+	border-radius: 2px;
+}
+
+textarea {
+	resize: vertical;
+}
+
+button {
+	padding: 6px 12px;
+	color: #fff;
+	background: #c49b50;
+	border: 0;
+	border-radius: 2px;
+	font-size: .7rem;
+	cursor: pointer;
+}
+
+.site-footer {
+	padding: 20px max(16px, calc((100% - 780px) / 2));
+	color: #ddd;
+	background: #1d1d1d;
+	font-size: .7rem;
+}
+
+.footer-cols {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 28px;
+}
+
+.site-footer h3 {
+	color: #d5b66f;
+	font-size: .7rem;
+}
+
+.site-footer p {
+	margin: 0;
+}
+
+.copyright {
+	margin-top: 20px !important;
+	color: #888;
+	text-align: center;
+}
+
+@media (max-width: 620px) {
+	.layout {
+		display: block;
+		width: min(100% - 28px, 480px);
+	}
+
+	.sidebar {
+		margin-top: 24px;
+	}
+
+	.footer-cols {
+		grid-template-columns: repeat(2, 1fr);
+		gap: 16px;
+	}
+}
+
+@media (max-width: 390px) {
+	.value-list,
+	.team-list {
+		gap: 7px;
+	}
+
+	.value-card,
+	.member {
+		padding: 8px;
+	}
+
+	.member img {
+		width: 52px;
+		height: 52px;
+	}
+}

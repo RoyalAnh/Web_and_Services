@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Giới thiệu Blakletterpress — xưởng in letterpress thủ công tại Hà Nội.">
+	<title>Giới thiệu — Blakletterpress | Tailwind</title>
+	<script src="https://cdn.tailwindcss.com"></script>
+	<style>
+		@media (max-width: 390px) {
+			.compact-card { padding: .5rem; }
+			.compact-avatar { width: 52px; height: 52px; }
+		}
+	</style>
+</head>
+<body class="m-0 bg-stone-50 font-sans text-xs leading-relaxed text-stone-700">
+	<header class="bg-neutral-900 text-center text-white">
+		<a href="#" class="block px-4 pt-2 font-serif text-lg font-bold text-white no-underline">Blakletterpress</a>
+		<p class="mb-2 mt-0 font-serif text-[.72rem] italic text-amber-200/80">Xưởng in letterpress thủ công</p>
+		<nav class="bg-neutral-950" aria-label="Chính">
+			<ul class="m-0 flex list-none justify-center gap-5 px-4 py-1.5">
+				<li><a href="#gioi-thieu" class="text-[.7rem] text-stone-200 no-underline">Giới thiệu</a></li>
+				<li><a href="#gia-tri" class="text-[.7rem] text-stone-200 no-underline">Giá trị</a></li>
+				<li><a href="#doi-ngu" class="text-[.7rem] text-stone-200 no-underline">Đội ngũ</a></li>
+				<li><a href="#lien-he" class="text-[.7rem] text-stone-200 no-underline">Liên hệ</a></li>
+			</ul>
+		</nav>
+	</header>
+
+	<div class="mx-auto grid w-[calc(100%-32px)] max-w-[780px] gap-4 py-7 sm:grid-cols-[minmax(0,1fr)_205px] sm:pb-10">
+		<main>
+			<article id="gioi-thieu" class="mb-[22px]">
+				<h1 class="mb-3 text-[1.35rem] font-bold text-neutral-800">Về Blakletterpress</h1>
+				<figure class="m-0 mb-2.5">
+					<img src="./images/team-large.jpg" alt="Đội ngũ Blakletterpress tại xưởng in" class="block h-auto w-full">
+					<figcaption class="mt-0.5 text-[.63rem] text-stone-500">Xưởng in Blakletterpress tại Hà Nội.</figcaption>
+				</figure>
+				<p class="mb-2 text-[.76rem]">Blakletterpress là xưởng in letterpress thủ công, thành lập năm 2016 tại Hà Nội. Chúng tôi tin rằng mỗi ấn phẩm in tay đều mang một dấu ấn riêng không máy móc nào thay thế được.</p>
+				<p class="mb-2 text-[.76rem]">Sản phẩm chính của chúng tôi gồm <strong>thiệp cưới</strong>, <strong>danh thiếp</strong> và <strong>ấn phẩm nghệ thuật</strong> in giới hạn.</p>
+			</article>
+
+			<section id="gia-tri" class="mb-[22px]">
+				<h2 class="mb-3 text-[1.1rem] font-bold text-neutral-800">Giá trị cốt lõi</h2>
+				<ul class="m-0 grid list-none grid-cols-3 gap-3 p-0">
+					<li class="compact-card rounded border border-stone-200 bg-white p-3"><h3 class="mb-1.5 text-[.82rem] font-bold text-neutral-800">Thủ công</h3><p class="mb-2 text-[.7rem]">Mỗi bản in được canh chỉnh và kiểm tra bằng tay.</p></li>
+					<li class="compact-card rounded border border-stone-200 bg-white p-3"><h3 class="mb-1.5 text-[.82rem] font-bold text-neutral-800">Bền vững</h3><p class="mb-2 text-[.7rem]">Sử dụng giấy tái chế và mực gốc thực vật.</p></li>
+					<li class="compact-card rounded border border-stone-200 bg-white p-3"><h3 class="mb-1.5 text-[.82rem] font-bold text-neutral-800">Cá nhân hoá</h3><p class="mb-2 text-[.7rem]">Thiết kế riêng theo câu chuyện của từng khách hàng.</p></li>
+				</ul>
+			</section>
+
+			<section id="doi-ngu" class="mb-[22px]">
+				<h2 class="mb-3 text-[1.1rem] font-bold text-neutral-800">Đội ngũ</h2>
+				<ul class="m-0 grid list-none grid-cols-3 gap-3 p-0">
+					<li class="compact-card rounded border border-stone-200 bg-white p-3"><img src="./images/smiling.jpg" alt="Chân dung Lan Anh" class="compact-avatar mx-auto mb-2 block h-[66px] w-[66px] rounded-full object-cover"><h3 class="mb-1.5 text-center text-[.82rem] font-bold text-neutral-800">Lan Anh</h3><p class="mb-2 text-center text-[.7rem]">Nhà sáng lập &amp; Giám đốc sáng tạo</p></li>
+					<li class="compact-card rounded border border-stone-200 bg-white p-3"><img src="./images/team.jpg" alt="Chân dung Minh Đức" class="compact-avatar mx-auto mb-2 block h-[66px] w-[66px] rounded-full object-cover"><h3 class="mb-1.5 text-center text-[.82rem] font-bold text-neutral-800">Minh Đức</h3><p class="mb-2 text-center text-[.7rem]">Thợ in trưởng</p></li>
+					<li class="compact-card rounded border border-stone-200 bg-white p-3"><img src="./images/ecofriends.jpg" alt="Chân dung Thu Hà" class="compact-avatar mx-auto mb-2 block h-[66px] w-[66px] rounded-full object-cover"><h3 class="mb-1.5 text-center text-[.82rem] font-bold text-neutral-800">Thu Hà</h3><p class="mb-2 text-center text-[.7rem]">Thiết kế đồ hoạ</p></li>
+				</ul>
+			</section>
+
+			<section id="lien-he" class="mb-[22px]">
+				<h2 class="mb-3 text-[1.1rem] font-bold text-neutral-800">Liên hệ</h2>
+				<form action="#" method="post" class="w-[320px] max-w-full rounded border border-stone-200 bg-white p-3">
+					<p class="mb-2"><label for="ten" class="mb-1 inline-block text-[.7rem]">Họ tên</label><input type="text" id="ten" name="ten" required class="block w-full rounded border border-stone-300 p-1.5 text-xs"></p>
+					<p class="mb-2"><label for="email" class="mb-1 inline-block text-[.7rem]">Email</label><input type="email" id="email" name="email" required class="block w-full rounded border border-stone-300 p-1.5 text-xs"></p>
+					<p class="mb-2"><label for="noidung" class="mb-1 inline-block text-[.7rem]">Nội dung</label><textarea id="noidung" name="noidung" rows="4" class="block w-full resize-y rounded border border-stone-300 p-1.5 text-xs"></textarea></p>
+					<p class="mb-0"><button type="submit" class="rounded bg-amber-600 px-3 py-1.5 text-[.7rem] text-white">Gửi liên hệ</button></p>
+				</form>
+			</section>
+		</main>
+
+		<aside class="h-fit rounded bg-stone-200/70 p-4 sm:mt-0">
+			<h2 class="mb-3 text-base font-bold text-neutral-800">Bài viết gần đây</h2>
+			<ul class="m-0 list-disc pl-4 text-[.72rem]">
+				<li><a href="#" class="text-blue-800">Bộ sưu tập thiệp Tết 2026</a></li>
+				<li><a href="#" class="text-blue-800">Nghề in letterpress ở Việt Nam</a></li>
+				<li><a href="#" class="text-blue-800">Cách chọn giấy cho thiệp cưới</a></li>
+			</ul>
+			<p class="mb-2 mt-2 text-[.72rem]">Theo dõi chúng tôi trên <a href="https://facebook.com" target="_blank" rel="noopener" class="text-blue-800">Facebook</a>.</p>
+		</aside>
+	</div>
+
+	<footer class="bg-neutral-900 px-4 py-5 text-[.7rem] text-stone-300 sm:px-[max(16px,calc((100%-780px)/2))]">
+		<ul class="m-0 grid list-none grid-cols-2 gap-4 p-0 sm:grid-cols-4 sm:gap-7">
+			<li><h3 class="mb-1.5 text-[.7rem] font-bold text-amber-200/80">Về chúng tôi</h3><p class="m-0">Xưởng in letterpress thủ công tại Hà Nội từ 2016.</p></li>
+			<li><h3 class="mb-1.5 text-[.7rem] font-bold text-amber-200/80">Sản phẩm</h3><p class="m-0">Thiệp cưới, danh thiếp, ấn phẩm nghệ thuật.</p></li>
+			<li><h3 class="mb-1.5 text-[.7rem] font-bold text-amber-200/80">Liên hệ</h3><p class="m-0">Hà Nội · hello@blakletterpress.example</p></li>
+			<li><h3 class="mb-1.5 text-[.7rem] font-bold text-amber-200/80">Giờ mở cửa</h3><p class="m-0">Thứ 2 – Thứ 7, 9:00 – 18:00.</p></li>
+		</ul>
+		<p class="mt-5 text-center text-stone-500">© 2026 Blakletterpress. Mọi quyền được bảo lưu.</p>
+	</footer>
+</body>
+</html>
