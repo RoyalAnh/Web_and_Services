@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="theme-color" content="#1f2e28">
+	<title>TrayGo - Giao đồ ăn nội thành Hà Nội</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="style.css">
+	<script src="script.js" defer></script>
+</head>
+<body>
+	<header class="site-header">
+		<nav class="nav-shell" aria-label="Điều hướng chính">
+			<a class="brand" href="#top" aria-label="TrayGo - về đầu trang">TrayGo<span>.</span></a>
+			<button class="menu-toggle icon-button" type="button" aria-label="Mở menu" aria-expanded="false" aria-controls="primary-navigation">
+				<span aria-hidden="true">☰</span>
+			</button>
+			<ul class="nav-links" id="primary-navigation">
+				<li><a href="#features">Trải nghiệm</a></li>
+				<li><a href="#steps">Cách hoạt động</a></li>
+				<li><a href="#gallery">Món ngon</a></li>
+				<li><a href="#reviews">Đánh giá</a></li>
+			</ul>
+			<div class="nav-actions">
+				<button class="theme-toggle icon-button" type="button" aria-label="Chuyển sang giao diện sáng" title="Chuyển giao diện">
+					<span aria-hidden="true">☼</span>
+				</button>
+				<a class="button button--small" href="#order">Đặt món ngay</a>
+			</div>
+		</nav>
+	</header>
+
+	<main id="top">
+		<section class="hero section-shell" aria-labelledby="hero-title">
+			<div class="hero-copy">
+				<p class="eyebrow">Giao đồ ăn nội thành Hà Nội</p>
+				<h1 id="hero-title">Món ngon đến cửa, nhanh hơn bạn nghĩ.</h1>
+				<p class="hero-description">TrayGo kết nối bạn với những quán ăn yêu thích và giao tận nơi nhanh chóng, minh bạch, tiện lợi.</p>
+				<div class="hero-actions">
+					<a class="button" href="#order">Đặt món hôm nay <span aria-hidden="true">↗</span></a>
+					<a class="text-link" href="#steps">Khám phá cách đặt <span aria-hidden="true">↓</span></a>
+				</div>
+				<dl class="quick-stats">
+					<div><dt>20 phút</dt><dd>Giao trung bình</dd></div>
+					<div><dt>600+</dt><dd>Quán đối tác</dd></div>
+					<div><dt>4.8/5</dt><dd>Đánh giá</dd></div>
+				</dl>
+			</div>
+			<div class="food-slider" aria-label="Món ăn nổi bật">
+				<article class="slide is-active" aria-hidden="false">
+					<img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=1200&q=85" alt="Tô salad tươi với rau xanh, cà chua và hạt">
+					<div class="slide-caption"><span>01 / Món được yêu thích</span><h2>Bữa ngon, chọn theo gu bạn.</h2></div>
+				</article>
+				<article class="slide" aria-hidden="true" hidden>
+					<img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=1200&q=85" alt="Pizza nướng phủ rau củ và phô mai">
+					<div class="slide-caption"><span>02 / Nướng nóng mỗi ngày</span><h2>Hương vị quen, giao thật nhanh.</h2></div>
+				</article>
+				<article class="slide" aria-hidden="true" hidden>
+					<img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=1200&q=85" alt="Burger kẹp rau xanh và phô mai">
+					<div class="slide-caption"><span>03 / Đúng món bạn thèm</span><h2>Mở hộp là thấy vui.</h2></div>
+				</article>
+				<div class="slider-controls" aria-label="Điều khiển ảnh món ăn">
+					<button class="slider-arrow" type="button" data-direction="previous" aria-label="Ảnh trước">←</button>
+					<div class="slider-dots" aria-label="Chọn ảnh">
+						<button class="slider-dot is-active" type="button" aria-label="Ảnh 1" aria-current="true" data-slide="0"></button>
+						<button class="slider-dot" type="button" aria-label="Ảnh 2" aria-current="false" data-slide="1"></button>
+						<button class="slider-dot" type="button" aria-label="Ảnh 3" aria-current="false" data-slide="2"></button>
+					</div>
+					<button class="slider-arrow" type="button" data-direction="next" aria-label="Ảnh tiếp theo">→</button>
+				</div>
+			</div>
+		</section>
+
+		<section class="feature-band" id="features" aria-labelledby="features-title">
+			<div class="section-shell">
+				<header class="section-heading">
+					<p class="eyebrow">Trải nghiệm khác biệt</p>
+					<h2 id="features-title">Mọi bữa ăn đều dễ dàng hơn</h2>
+				</header>
+				<div class="feature-grid">
+					<article class="feature-item"><span class="feature-number">01</span><h3>Giao nhanh đúng giờ</h3><p>Tài xế gần bạn giúp món ăn đến nơi nóng hổi, đúng thời gian dự kiến.</p></article>
+					<article class="feature-item"><span class="feature-number">02</span><h3>Quán quen giá gốc</h3><p>Thưởng thức món yêu thích từ các quán đối tác với mức giá minh bạch.</p></article>
+					<article class="feature-item"><span class="feature-number">03</span><h3>Theo dõi trực tiếp</h3><p>Cập nhật trạng thái đơn hàng và vị trí tài xế theo thời gian thực.</p></article>
+				</div>
+			</div>
+		</section>
+
+		<section class="steps-section section-shell" id="steps" aria-labelledby="steps-title">
+			<header class="section-heading">
+				<p class="eyebrow">Đặt món thật đơn giản</p>
+				<h2 id="steps-title">Từ lựa chọn đến thưởng thức</h2>
+			</header>
+			<ol class="steps-list">
+				<li><h3>Chọn quán</h3><p>Khám phá hàng trăm quán ăn được yêu thích quanh bạn.</p></li>
+				<li><h3>Xác nhận đơn</h3><p>Chọn món, kiểm tra chi tiết và xác nhận đơn hàng trong vài chạm.</p></li>
+				<li><h3>Nhận hàng</h3><p>Theo dõi tài xế và nhận món ngon ngay tại cửa nhà.</p></li>
+			</ol>
+		</section>
+
+		<section class="gallery-band" id="gallery" aria-labelledby="gallery-title">
+			<div class="section-shell gallery-layout">
+				<div>
+					<p class="eyebrow">Món ngon quanh bạn</p>
+					<h2 id="gallery-title">Một lần chạm, cả bàn tiệc.</h2>
+				</div>
+				<p>Từ bữa trưa gọn nhẹ đến món ăn tối cuối tuần, khám phá lựa chọn hợp khẩu vị từ những quán ăn bạn yêu thích.</p>
+			</div>
+		</section>
+
+		<section class="reviews-section section-shell" id="reviews" aria-labelledby="reviews-title">
+			<header class="section-heading reviews-heading">
+				<div><p class="eyebrow">Khách hàng nói gì</p><h2 id="reviews-title">Bữa ăn ngon hơn khi đặt cùng TrayGo</h2></div>
+				<p class="review-count" id="review-count" aria-live="polite"></p>
+			</header>
+			<div class="review-tools">
+				<label class="search-field" for="review-search"><span aria-hidden="true">⌕</span><input id="review-search" type="search" placeholder="Tìm trong đánh giá" autocomplete="off"></label>
+				<label class="filter-field" for="review-filter"><span class="visually-hidden">Lọc đánh giá</span>
+					<select id="review-filter">
+						<option value="all">Tất cả chủ đề</option>
+						<option value="speed">Giao nhanh</option>
+						<option value="variety">Nhiều lựa chọn</option>
+						<option value="value">Giá minh bạch</option>
+					</select>
+				</label>
+			</div>
+			<div class="review-grid" id="review-list" aria-live="polite"></div>
+			<p class="empty-state" id="review-empty" hidden>Chưa tìm thấy đánh giá phù hợp. Hãy thử từ khóa hoặc chủ đề khác.</p>
+		</section>
+
+		<section class="order-band" id="order" aria-labelledby="order-title">
+			<div class="section-shell order-layout">
+				<div class="order-copy"><p class="eyebrow">Bữa ngon đang chờ bạn</p><h2 id="order-title">Chọn món yêu thích. Phần còn lại để TrayGo lo.</h2><p>Để lại email để trải nghiệm quy trình đặt món mẫu.</p></div>
+				<form class="order-form" id="order-form" novalidate>
+					<div class="form-field"><label for="customer-name">Họ và tên</label><input id="customer-name" name="name" type="text" autocomplete="name" required aria-describedby="name-error"><span class="field-error" id="name-error"></span></div>
+					<div class="form-field"><label for="customer-email">Email</label><input id="customer-email" name="email" type="email" autocomplete="email" required aria-describedby="email-error"><span class="field-error" id="email-error"></span></div>
+					<button class="button button--dark" type="submit">Gửi yêu cầu <span aria-hidden="true">↗</span></button>
+					<p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+				</form>
+			</div>
+		</section>
+	</main>
+
+	<footer class="site-footer section-shell">
+		<p>© 2026 TrayGo. Giao vị ngon khắp Hà Nội.</p>
+		<nav aria-label="Liên kết chân trang"><a href="#features">Trải nghiệm</a><a href="#reviews">Đánh giá</a><a href="#order">Liên hệ</a></nav>
+	</footer>
+</body>
+</html>
