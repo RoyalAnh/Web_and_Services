@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f5f6f0" />
+    <title>Quản lý người dùng</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      const emptyUser = () => ({
+        name: "",
+        username: "",
+        email: "",
+        address: { street: "", suite: "", city: "" },
+        phone: "",
+        website: "",
+      });
+
+      function App() {
+        const [keyword, setKeyword] = React.useState("");
+        const [newUser, setNewUser] = React.useState(null);
+
+        return (
+          <main className="app-shell">
+            <header className="page-header">
+              <div className="brand-mark" aria-hidden="true">U</div>
+              <div className="header-copy">
+                <p className="eyebrow">DANH BẠ <span> / </span> QUẢN TRỊ</p>
+                <h1>Quản lý người dùng</h1>
+              </div>
+              <div className="header-note"><span className="live-dot" /> Dữ liệu trực tuyến</div>
+            </header>
+
+            <section className="workspace" aria-label="Danh sách người dùng">
+              <div className="toolbar">
+                <SearchForm onChangeValue={setKeyword} />
+                <AddUser onAdd={setNewUser} />
+              </div>
+              <ResultTable
+                keyword={keyword}
+                user={newUser}
+                onAdded={() => setNewUser(null)}
+              />
+            </section>
+            <footer className="page-footer"><span>USER DIRECTORY</span><span>REACT CRUD · 2026</span></footer>
+          </main>
+        );
+      }
+
+      function SearchForm({ onChangeValue }) {
+        return (
+          <label className="search-field">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8" /><path d="m16 16 4.2 4.2" /></svg>
+            <input
+              type="search"
+              placeholder="Tìm theo tên hoặc username"
+              aria-label="Tìm theo tên hoặc username"
+              onChange={(event) => onChangeValue(event.target.value)}
+            />
+            <span className="search-hint">⌕</span>
+          </label>
+        );
+      }
+
+      function UserFields({ user, onChange, prefix }) {
+        const fields = [
+          { key: "name", label: "Họ và tên", required: true },
+          { key: "username", label: "Username", required: true },
+          { key: "email", label: "Email", type: "email" },
+          { key: "street", label: "Đường", group: "address" },
+          { key: "suite", label: "Căn hộ / tầng", group: "address" },
+          { key: "city", label: "Thành phố", group: "address" },
+          { key: "phone", label: "Điện thoại", type: "tel" },
+          { key: "website", label: "Website", type: "url" },
+        ];
+
+        return (
+          <div className="form-grid">
+            {fields.map((field) => {
+              const value = field.group ? user.address?.[field.key] || "" : user[field.key] || "";
+              const id = `${prefix}-${field.key}`;
+              return (
+                <div className={`form-field ${field.key === "street" ? "field-wide" : ""}`} key={field.key}>
+                  <label htmlFor={id}>{field.label}{field.required && <span className="required"> *</span>}</label>
+                  <input
+                    id={id}
+                    type={field.type || "text"}
+                    value={value}
+                    required={field.required || false}
+                    onChange={(event) => onChange(field.key, event.target.value, field.group)}
+                  />
+                </div>
+              );
+            })}
+          </div>
+        );
+      }
+
+      function AddUser({ onAdd }) {
+        const [adding, setAdding] = React.useState(false);
+        const [user, setUser] = React.useState(emptyUser);
+
+        function handleChange(key, value, group) {
+          if (group === "address") {
+            setUser((current) => ({ ...current, address: { ...current.address, [key]: value } }));
+          } else {
+            setUser((current) => ({ ...current, [key]: value }));
+          }
+        }
+
+        function handleSubmit(event) {
+          event.preventDefault();
+          onAdd({ ...user, address: { ...user.address } });
+          setUser(emptyUser());
+          setAdding(false);
+        }
+
+        return (
+          <>
+            <button className="button button-primary" type="button" onClick={() => setAdding(true)}>
+              <span className="button-plus" aria-hidden="true">+</span> Thêm người dùng
+            </button>
+            {adding && (
+              <div className="modal-overlay" onMouseDown={(event) => event.target === event.currentTarget && setAdding(false)}>
+                <section className="modal-content" role="dialog" aria-modal="true" aria-labelledby="add-title">
+                  <div className="modal-heading">
+                    <div><p className="eyebrow">DANH BẠ / NGƯỜI DÙNG MỚI</p><h2 id="add-title">Thêm người dùng</h2></div>
+                    <button className="icon-button" type="button" aria-label="Đóng" onClick={() => setAdding(false)}>×</button>
+                  </div>
+                  <form onSubmit={handleSubmit}>
+                    <UserFields user={user} onChange={handleChange} prefix="add" />
+                    <div className="modal-actions">
+                      <button className="button button-quiet" type="button" onClick={() => setAdding(false)}>Hủy</button>
+                      <button className="button button-primary" type="submit">Thêm vào danh sách</button>
+                    </div>
+                  </form>
+                </section>
+              </div>
+            )}
+          </>
+        );
+      }
+
+      function ResultTable({ keyword, user, onAdded }) {
+        const [users, setUsers] = React.useState([]);
+        const [loading, setLoading] = React.useState(true);
+        const [error, setError] = React.useState("");
+        const [editing, setEditing] = React.useState(null);
+
+        React.useEffect(() => {
+          let active = true;
+          fetch("https://jsonplaceholder.typicode.com/users")
+            .then((response) => {
+              if (!response.ok) throw new Error("Không thể tải danh sách người dùng.");
+              return response.json();
+            })
+            .then((data) => {
+              if (active) {
+                setUsers(data);
+                setError("");
+              }
+            })
+            .catch(() => {
+              if (active) setError("Không tải được dữ liệu. Hãy kiểm tra kết nối rồi thử lại.");
+            })
+            .finally(() => {
+              if (active) setLoading(false);
+            });
+          return () => { active = false; };
+        }, []);
+
+        React.useEffect(() => {
+          if (!user) return;
+          setUsers((current) => {
+            const nextId = current.reduce((maximum, item) => Math.max(maximum, Number(item.id) || 0), 0) + 1;
+            return [...current, { ...user, id: nextId }];
+          });
+          onAdded();
+        }, [user, onAdded]);
+
+        function editUser(selectedUser) {
+          setEditing({ ...selectedUser, address: { ...(selectedUser.address || {}) } });
+        }
+
+        function handleEditChange(key, value, group) {
+          setEditing((current) => group === "address"
+            ? { ...current, address: { ...current.address, [key]: value } }
+            : { ...current, [key]: value });
+        }
+
+        function saveUser(event) {
+          event.preventDefault();
+          setUsers((current) => current.map((item) => item.id === editing.id ? editing : item));
+          setEditing(null);
+        }
+
+        function removeUser(id) {
+          setUsers((current) => current.filter((item) => item.id !== id));
+        }
+
+        const normalizedKeyword = keyword.trim().toLocaleLowerCase("vi");
+        const filteredUsers = users.filter((item) =>
+          [item.name, item.username].some((value) => value?.toLocaleLowerCase("vi").includes(normalizedKeyword))
+        );
+
+        return (
+          <>
+            <div className="list-heading">
+              <div><p className="eyebrow">HỒ SƠ</p><h2>Danh sách người dùng</h2></div>
+              <div className="result-count"><strong>{loading ? "—" : filteredUsers.length}</strong><span> / {loading ? "—" : users.length} người dùng</span></div>
+            </div>
+            {error && (
+              <div className="error-state" role="alert">
+                <span>{error}</span>
+                <button type="button" className="button button-quiet" onClick={() => window.location.reload()}>Tải lại</button>
+              </div>
+            )}
+            <div className="table-frame">
+              <table>
+                <thead><tr><th className="id-column">ID</th><th>Họ và tên</th><th>Username</th><th>Email</th><th>Địa chỉ</th><th>Điện thoại</th><th className="actions-column">Thao tác</th></tr></thead>
+                <tbody>
+                  {loading && <tr><td colSpan="7" className="table-message"><span className="spinner" />Đang tải danh sách...</td></tr>}
+                  {!loading && filteredUsers.map((item) => (
+                    <tr key={item.id}>
+                      <td className="id-cell">{item.id}</td>
+                      <td><span className="user-name">{item.name}</span></td>
+                      <td><span className="username">@{item.username}</span></td>
+                      <td>{item.email ? <a className="email-link" href={`mailto:${item.email}`}>{item.email}</a> : "—"}</td>
+                      <td>{[item.address?.street, item.address?.suite, item.address?.city].filter(Boolean).join(", ") || "—"}</td>
+                      <td>{item.phone || "—"}</td>
+                      <td>
+                        <div className="row-actions">
+                          <button className="row-action edit-action" type="button" onClick={() => editUser(item)} aria-label={`Sửa ${item.name}`}>Sửa</button>
+                          <button className="row-action delete-action" type="button" onClick={() => removeUser(item.id)} aria-label={`Xóa ${item.name}`}>Xóa</button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                  {!loading && filteredUsers.length === 0 && (
+                    <tr><td colSpan="7" className="table-message">{users.length ? "Không tìm thấy người dùng phù hợp." : "Chưa có người dùng nào."}</td></tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+            <div className="table-footnote"><span>HIỂN THỊ {loading ? "—" : filteredUsers.length} KẾT QUẢ</span><span>Nguồn dữ liệu: JSONPlaceholder</span></div>
+
+            {editing && (
+              <div className="modal-overlay" onMouseDown={(event) => event.target === event.currentTarget && setEditing(null)}>
+                <section className="modal-content" role="dialog" aria-modal="true" aria-labelledby="edit-title">
+                  <div className="modal-heading">
+                    <div><p className="eyebrow">DANH BẠ / ID {editing.id}</p><h2 id="edit-title">Sửa thông tin</h2></div>
+                    <button className="icon-button" type="button" aria-label="Đóng" onClick={() => setEditing(null)}>×</button>
+                  </div>
+                  <form onSubmit={saveUser}>
+                    <UserFields user={editing} onChange={handleEditChange} prefix="edit" />
+                    <div className="modal-actions">
+                      <button className="button button-quiet" type="button" onClick={() => setEditing(null)}>Hủy</button>
+                      <button className="button button-primary" type="submit">Lưu thay đổi</button>
+                    </div>
+                  </form>
+                </section>
+              </div>
+            )}
+          </>
+        );
+      }
+
+      ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+    </script>
+  </body>
+</html>
