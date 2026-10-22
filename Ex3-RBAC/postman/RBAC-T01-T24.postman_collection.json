@@ -1,0 +1,219 @@
+{
+  "info": {
+    "_postman_id": "cf91cae2-1a89-4e02-b575-5b30a9fd07b1",
+    "name": "IT4409 Fullstack RBAC — T01-T24",
+    "description": "Sequential contract/security checks for the assignment API. Configure the variables listed in the project README before running. T06 stores createdUserId and testEmail for later requests.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:3001" },
+    { "key": "adminToken", "value": "" },
+    { "key": "managerToken", "value": "" },
+    { "key": "auditorToken", "value": "" },
+    { "key": "memberToken", "value": "" },
+    { "key": "managerUserId", "value": "" },
+    { "key": "superAdminRoleId", "value": "" },
+    { "key": "managerRoleId", "value": "" },
+    { "key": "auditorRoleId", "value": "" },
+    { "key": "memberRoleId", "value": "" },
+    { "key": "softDeleteUserId", "value": "" },
+    { "key": "softDeleteEmail", "value": "" },
+    { "key": "softDeletePassword", "value": "" },
+    { "key": "roleInUseId", "value": "" },
+    { "key": "customRoleId", "value": "" },
+    { "key": "duplicateRoleCode", "value": "support-observer" },
+    { "key": "createdUserId", "value": "" },
+    { "key": "testEmail", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "T01 — unauthenticated request",
+      "request": { "method": "GET", "header": [], "url": "{{baseUrl}}/api/v1/users" },
+      "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('401 UNAUTHENTICATED', function () { pm.response.to.have.status(401); pm.expect(pm.response.json().error.code).to.eql('UNAUTHENTICATED'); });"] } }]
+    },
+    {
+      "name": "T02 — member cannot read users",
+      "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{memberToken}}" }], "url": "{{baseUrl}}/api/v1/users" },
+      "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('403 FORBIDDEN', function () { pm.response.to.have.status(403); pm.expect(pm.response.json().error.code).to.eql('FORBIDDEN'); });"] } }]
+    },
+    {
+      "name": "T03 — auditor pagination",
+      "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{auditorToken}}" }], "url": "{{baseUrl}}/api/v1/users?page=2&limit=3&sort=fullName" },
+      "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('200 and pagination metadata', function () { pm.response.to.have.status(200); var m = pm.response.json().meta; pm.expect(m.page).to.eql(2); pm.expect(m.limit).to.eql(3); pm.expect(m).to.have.property('totalItems'); pm.expect(m).to.have.property('totalPages'); });"] } }]
+    },
+    {
+      "name": "T04 — search and active filter",
+      "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{auditorToken}}" }], "url": "{{baseUrl}}/api/v1/users?q=nguyen&status=active" },
+      "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('200 and every result matches filters', function () { pm.response.to.have.status(200); pm.response.json().data.forEach(function (u) { pm.expect(u.status).to.eql('active'); pm.expect((u.fullName + ' ' + u.email).toLowerCase()).to.include('nguyen'); }); });"] } }]
+    },
+    {
+      "name": "T05 — invalid limit",
+      "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{auditorToken}}" }], "url": "{{baseUrl}}/api/v1/users?limit=500" },
+      "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('400 INVALID_QUERY_PARAMETER', function () { pm.response.to.have.status(400); pm.expect(pm.response.json().error.code).to.eql('INVALID_QUERY_PARAMETER'); });"] } }]
+    },
+    {
+      "name": "T06 — create user",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Authorization", "value": "Bearer {{managerToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\"email\":\"{{testEmail}}\",\"fullName\":\"Postman Created User\",\"phone\":\"+84911222333\",\"password\":\"RbacTest1!\",\"roleIds\":[\"{{memberRoleId}}\"]}" },
+        "url": "{{baseUrl}}/api/v1/users"
+      },
+      "event": [
+        { "listen": "prerequest", "script": { "type": "text/javascript", "exec": ["pm.collectionVariables.set('testEmail', 'postman-' + Date.now() + '@example.test');"] } },
+        { "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('201, Location and no passwordHash', function () { pm.response.to.have.status(201); pm.expect(pm.response.headers.get('Location')).to.include(pm.response.json().id); pm.expect(pm.response.json()).not.to.have.property('passwordHash'); pm.collectionVariables.set('createdUserId', pm.response.json().id); });"] } }
+      ]
+    },
+    {
+      "name": "T07 — duplicate email",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Authorization", "value": "Bearer {{managerToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\"email\":\"{{testEmail}}\",\"fullName\":\"Duplicate User\",\"password\":\"RbacTest1!\"}" },
+        "url": "{{baseUrl}}/api/v1/users"
+      },
+      "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('409 EMAIL_ALREADY_EXISTS', function () { pm.response.to.have.status(409); pm.expect(pm.response.json().error.code).to.eql('EMAIL_ALREADY_EXISTS'); });"] } }]
+    },
+    {
+      "name": "T08 — weak password",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Authorization", "value": "Bearer {{managerToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\"email\":\"weak-{{testEmail}}\",\"fullName\":\"Weak Password\",\"password\":\"123\"}" },
+        "url": "{{baseUrl}}/api/v1/users"
+      },
+      "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('400 WEAK_PASSWORD', function () { pm.response.to.have.status(400); pm.expect(pm.response.json().error.details.some(function (d) { return d.issue === 'WEAK_PASSWORD'; })).to.eql(true); });"] } }]
+    },
+    {
+      "name": "T09 — create with super-admin role is blocked",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Authorization", "value": "Bearer {{managerToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\"email\":\"escalation-{{testEmail}}\",\"fullName\":\"Escalation Attempt\",\"password\":\"RbacTest1!\",\"roleIds\":[\"{{superAdminRoleId}}\"]}" },
+        "url": "{{baseUrl}}/api/v1/users"
+      },
+      "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('403 PRIVILEGE_ESCALATION', function () { pm.response.to.have.status(403); pm.expect(pm.response.json().error.code).to.eql('PRIVILEGE_ESCALATION'); });"] } }]
+    },
+    {
+      "name": "T10 — partial user update",
+      "request": {
+        "method": "PATCH",
+        "header": [{ "key": "Authorization", "value": "Bearer {{managerToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\"phone\":\"+84911222334\"}" },
+        "url": "{{baseUrl}}/api/v1/users/{{createdUserId}}"
+      },
+      "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('200 and fields not sent are retained', function () { pm.response.to.have.status(200); pm.expect(pm.response.json().phone).to.eql('+84911222334'); pm.expect(pm.response.json().fullName).to.eql('Postman Created User'); });"] } }]
+    },
+    {
+      "name": "T11 — mass assignment rejected",
+      "request": {
+        "method": "PATCH",
+        "header": [{ "key": "Authorization", "value": "Bearer {{managerToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\"roles\":[]}" },
+        "url": "{{baseUrl}}/api/v1/users/{{createdUserId}}"
+      },
+      "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('400 FIELD_NOT_ALLOWED', function () { pm.response.to.have.status(400); pm.expect(pm.response.json().error.code).to.eql('FIELD_NOT_ALLOWED'); pm.expect(pm.response.json().error.details.some(function (d) { return d.issue === 'FIELD_NOT_ALLOWED'; })).to.eql(true); });"] } }]
+    },
+    {
+      "name": "T12 — self lock blocked",
+      "request": {
+        "method": "PATCH",
+        "header": [{ "key": "Authorization", "value": "Bearer {{managerToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\"status\":\"locked\"}" },
+        "url": "{{baseUrl}}/api/v1/users/{{managerUserId}}"
+      },
+      "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('403 SELF_ACTION_FORBIDDEN', function () { pm.response.to.have.status(403); pm.expect(pm.response.json().error.code).to.eql('SELF_ACTION_FORBIDDEN'); });"] } }]
+    },
+    {
+      "name": "T13 — assign auditor twice",
+      "request": { "method": "PUT", "header": [{ "key": "Authorization", "value": "Bearer {{managerToken}}" }], "url": "{{baseUrl}}/api/v1/users/{{createdUserId}}/roles/{{auditorRoleId}}" },
+      "event": [
+        { "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('first assignment is 204', function () { pm.response.to.have.status(204); });", "pm.sendRequest({ url: pm.collectionVariables.get('baseUrl') + '/api/v1/users/' + pm.collectionVariables.get('createdUserId') + '/roles/' + pm.collectionVariables.get('auditorRoleId'), method: 'PUT', header: { Authorization: 'Bearer ' + pm.collectionVariables.get('managerToken') } }, function (err, response) { pm.test('repeated assignment is idempotent 204', function () { pm.expect(err).to.eql(null); pm.expect(response.code).to.eql(204); }); });"] } }
+      ]
+    },
+    {
+      "name": "T14 — super-admin role assignment blocked",
+      "request": { "method": "PUT", "header": [{ "key": "Authorization", "value": "Bearer {{managerToken}}" }], "url": "{{baseUrl}}/api/v1/users/{{createdUserId}}/roles/{{superAdminRoleId}}" },
+      "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('403 PRIVILEGE_ESCALATION', function () { pm.response.to.have.status(403); pm.expect(pm.response.json().error.code).to.eql('PRIVILEGE_ESCALATION'); });"] } }]
+    },
+    {
+      "name": "T15 — revoked role has immediate effect",
+      "request": { "method": "DELETE", "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }], "url": "{{baseUrl}}/api/v1/users/{{managerUserId}}/roles/{{managerRoleId}}" },
+      "event": [
+        { "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('role revocation is 204', function () { pm.response.to.have.status(204); });", "pm.sendRequest({ url: pm.collectionVariables.get('baseUrl') + '/api/v1/users', method: 'GET', header: { Authorization: 'Bearer ' + pm.collectionVariables.get('managerToken') } }, function (err, response) { pm.test('old token is denied immediately', function () { pm.expect(err).to.eql(null); pm.expect(response.code).to.eql(403); pm.expect(response.json().error.code).to.eql('FORBIDDEN'); }); });"] } }
+      ]
+    },
+    {
+      "name": "T16 — manager cannot delete users",
+      "request": { "method": "DELETE", "header": [{ "key": "Authorization", "value": "Bearer {{managerToken}}" }], "url": "{{baseUrl}}/api/v1/users/{{createdUserId}}" },
+      "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('403 FORBIDDEN', function () { pm.response.to.have.status(403); pm.expect(pm.response.json().error.code).to.eql('FORBIDDEN'); });"] } }]
+    },
+    {
+      "name": "T17 — soft delete, get and login behavior",
+      "request": { "method": "DELETE", "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }], "url": "{{baseUrl}}/api/v1/users/{{softDeleteUserId}}" },
+      "event": [
+        { "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('soft delete returns 204', function () { pm.response.to.have.status(204); });", "var base = pm.collectionVariables.get('baseUrl') + '/api/v1'; var id = pm.collectionVariables.get('softDeleteUserId'); var headers = { Authorization: 'Bearer ' + pm.collectionVariables.get('adminToken') };", "pm.sendRequest({ url: base + '/users/' + id, method: 'GET', header: headers }, function (err, response) { pm.test('deleted user GET is 404', function () { pm.expect(err).to.eql(null); pm.expect(response.code).to.eql(404); }); });", "pm.sendRequest({ url: base + '/auth/tokens', method: 'POST', header: { 'Content-Type': 'application/json' }, body: { mode: 'raw', raw: JSON.stringify({ grantType: 'password', email: pm.collectionVariables.get('softDeleteEmail'), password: pm.collectionVariables.get('softDeletePassword') }) } }, function (err, response) { pm.test('deleted user login is 401', function () { pm.expect(err).to.eql(null); pm.expect(response.code).to.eql(401); }); });"] } }
+      ]
+    },
+    {
+      "name": "T18 — invalid user ID is 404",
+      "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }], "url": "{{baseUrl}}/api/v1/users/abc" },
+      "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('404 USER_NOT_FOUND', function () { pm.response.to.have.status(404); pm.expect(pm.response.json().error.code).to.eql('USER_NOT_FOUND'); });"] } }]
+    },
+    {
+      "name": "T19 — duplicate role code",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\"code\":\"{{duplicateRoleCode}}\",\"name\":\"Duplicate Role\",\"permissions\":[]}" },
+        "url": "{{baseUrl}}/api/v1/roles"
+      },
+      "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('409 ROLE_CODE_EXISTS', function () { pm.response.to.have.status(409); pm.expect(pm.response.json().error.code).to.eql('ROLE_CODE_EXISTS'); });"] } }]
+    },
+    {
+      "name": "T20 — system role permissions protected",
+      "request": {
+        "method": "PUT",
+        "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\"permissions\":[]}" },
+        "url": "{{baseUrl}}/api/v1/roles/{{memberRoleId}}/permissions"
+      },
+      "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('409 SYSTEM_ROLE_PROTECTED', function () { pm.response.to.have.status(409); pm.expect(pm.response.json().error.code).to.eql('SYSTEM_ROLE_PROTECTED'); });"] } }]
+    },
+    {
+      "name": "T21 — role in use cannot be deleted",
+      "request": { "method": "DELETE", "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }], "url": "{{baseUrl}}/api/v1/roles/{{roleInUseId}}" },
+      "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('409 ROLE_IN_USE', function () { pm.response.to.have.status(409); pm.expect(pm.response.json().error.code).to.eql('ROLE_IN_USE'); });"] } }]
+    },
+    {
+      "name": "T22 — unknown permission is rejected",
+      "request": {
+        "method": "PUT",
+        "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\"permissions\":[\"users:fly\"]}" },
+        "url": "{{baseUrl}}/api/v1/roles/{{customRoleId}}/permissions"
+      },
+      "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('400 PERMISSION_NOT_FOUND', function () { pm.response.to.have.status(400); pm.expect(pm.response.json().error.code).to.eql('PERMISSION_NOT_FOUND'); });"] } }]
+    },
+    {
+      "name": "T23 — spoofed role header grants no access",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Authorization", "value": "Bearer {{memberToken}}" }, { "key": "Content-Type", "value": "application/json" }, { "key": "X-User-Role", "value": "super-admin" }],
+        "body": { "mode": "raw", "raw": "{\"email\":\"spoofed@example.test\",\"fullName\":\"Spoofed Role\",\"password\":\"RbacTest1!\",\"roleIds\":[]}" },
+        "url": "{{baseUrl}}/api/v1/users"
+      },
+      "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('403 FORBIDDEN despite spoofed header', function () { pm.response.to.have.status(403); pm.expect(pm.response.json().error.code).to.eql('FORBIDDEN'); });"] } }]
+    },
+    {
+      "name": "T24 — malformed JSON",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{" },
+        "url": "{{baseUrl}}/api/v1/auth/tokens"
+      },
+      "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('400 MALFORMED_JSON', function () { pm.response.to.have.status(400); pm.expect(pm.response.json().error.code).to.eql('MALFORMED_JSON'); });"] } }]
+    }
+  ]
+}
