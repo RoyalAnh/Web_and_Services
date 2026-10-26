@@ -16,7 +16,7 @@ Status meanings: **PASS** = completed and verified; **PARTIAL** = implementation
 | Test results and evidence boundaries documented | PASS | See `test-results.md`. |
 | Static frontend deployment | PASS | GitHub Pages serves the RBAC UI at `https://www.pqahust.dev/Ex3-RBAC/frontend/index.html`; HTTP 200 and browser smoke check. |
 | Backend and MongoDB Atlas deployment | PASS | Render service `https://web-and-services-rbac.onrender.com` started successfully; `/health` returned HTTP 200. |
-| Frontend-to-API configuration | PARTIAL | Source config now targets Render API on non-local hosts; Pages deployment and browser network check after this latest source change still need confirmation. |
+| Frontend-to-API configuration | PASS | Commit `fdd3c28` is published; live Pages config targets the Render API on non-local hosts and browser loads the hosted login page. Authenticated login remains unverified. |
 | Anonymous API authorization and CORS preflight | PASS | Protected `/api/v1/users` returns 401 without token; allowed-origin OPTIONS preflight returns 204 with expected CORS headers. |
 | Authenticated online login and Postman T01–T24 | UNVERIFIED | Needs seeded demo users and an online collection run. |
 | Online screenshots and performance measurements | UNVERIFIED | Must be captured/measured on the student's actual deployment. |

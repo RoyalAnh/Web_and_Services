@@ -26,8 +26,8 @@ This is a local integration/unit test run. It is not evidence that the hosted AP
 - The Pages workflow for cleanup commit `bee198c1104494ffdad75099a1da2c7e65ea32fc` completed successfully (build, deploy, and report jobs).
 - `https://www.pqahust.dev/health` and `/Ex3-RBAC/health` return HTTP 404 from the static Pages site; these are not backend health responses and confirm no API service is mounted at those Pages routes.
 - `/Ex3-RBAC/health` returns the static host's 404, not an API health response; use the Render service's `/health` endpoint instead.
-- The currently published `frontend/config.js` still leaves the API base empty on non-local origins, so the live Pages page is not yet connected to Render. The local source has now been changed to use the Render API on non-loopback hosts; publish this update and verify it from the browser before claiming the hosted login UI is connected.
-- Local browser testing previously verified the safe disabled-login state for an unconfigured remote API. The current source preserves the local API URL on loopback hosts and selects the Render API elsewhere.
+- Commit `fdd3c285c94320d20a4e64cbbaf1fd833cae1694` configures the frontend to use Render on non-loopback hosts. After publishing, a cache-busted fetch of the live Pages config returned `https://web-and-services-rbac.onrender.com/api/v1`; the hosted login page loaded in the browser.
+- Local browser testing previously verified the safe disabled-login state for an unconfigured remote API. The live source now preserves the local API URL on loopback hosts and selects the Render API elsewhere. Authenticated login remains unverified.
 
 ## Hosted API and Atlas
 

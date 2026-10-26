@@ -30,7 +30,7 @@ See [`render.env.example`](../render.env.example) for the Render variable names 
 - Add the exact HTTPS frontend origin to backend `CORS_ORIGINS` and redeploy the backend.
 - Verify the preflight response for `Authorization`, `Content-Type`, `PATCH`, `PUT`, and `DELETE`; ensure `Location` is exposed for 201 responses.
 
-The backend is deployed at `https://web-and-services-rbac.onrender.com`, with MongoDB Atlas configured. The health endpoint, protected-route authorization response, and allowed/disallowed CORS preflight behavior have been verified. The latest frontend source configuration is not yet confirmed live on Pages. Account login and the full Postman suite still require separate verification with seeded demo users.
+The backend is deployed at `https://web-and-services-rbac.onrender.com`, with MongoDB Atlas configured. The health endpoint, protected-route authorization response, and allowed/disallowed CORS preflight behavior have been verified. Commit `fdd3c28` is published on Pages and the served config targets the Render API. Account login and the full Postman suite still require separate verification with seeded demo users.
 
 ## Before sharing the deployment
 
