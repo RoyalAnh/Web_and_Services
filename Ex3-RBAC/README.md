@@ -82,4 +82,4 @@ T06 records `createdUserId` and a unique `testEmail` for subsequent requests. Th
 
 ## Deployment
 
-See [docs/deployment.md](./docs/deployment.md). No online deployment or external account setup has been performed.
+The static frontend is published at [https://www.pqahust.dev/Ex3-RBAC/frontend/index.html](https://www.pqahust.dev/Ex3-RBAC/frontend/index.html) using GitHub Pages. This static host does not run the Express API or MongoDB; no backend/database host is configured, so online login and RBAC API behavior are not available yet. The published source still points to its local API default; a local, unpushed change disables login on an unconfigured remote origin to avoid sending credentials to a visitor's localhost. See [docs/deployment.md](./docs/deployment.md) for the remaining steps.

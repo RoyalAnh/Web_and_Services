@@ -2,6 +2,8 @@ node_modules/
 .env
 .env.*
 !.env.example
+*.env
+atlas-credentials.env
 coverage/
 report/*.pdf
 *.log

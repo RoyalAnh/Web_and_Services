@@ -147,7 +147,8 @@
     const TOKEN_KEY = "rbac_token";
     const token = () => sessionStorage.getItem(TOKEN_KEY);
     const setToken = (value) => value ? sessionStorage.setItem(TOKEN_KEY, value) : sessionStorage.removeItem(TOKEN_KEY);
-    const api = axios.create({ baseURL: window.RBAC_API_BASE, timeout: 10000 });
+    const apiConfigured = typeof window.RBAC_API_BASE === "string" && window.RBAC_API_BASE.trim().length > 0;
+    const api = axios.create({ baseURL: apiConfigured ? window.RBAC_API_BASE : undefined, timeout: 10000 });
 
     api.interceptors.request.use((config) => {
       const value = token();
@@ -185,7 +186,7 @@
 
     function App() {
       const [me, setMe] = useState(null);
-      const [checking, setChecking] = useState(!!token());
+      const [checking, setChecking] = useState(apiConfigured && !!token());
       const [tab, setTab] = useState("users");
       const [toast, setToast] = useState(null);
       const toastTimer = useRef(null);
@@ -202,6 +203,10 @@
       }, []);
 
       useEffect(() => {
+        if (!apiConfigured) {
+          setToken(null);
+          return;
+        }
         if (!token()) return;
         loadMe()
           .catch((error) => {
@@ -243,7 +248,7 @@
       };
 
       if (checking) return <div className="loading">Đang kiểm tra phiên đăng nhập…</div>;
-      if (!me) return <LoginPage onLogin={login} />;
+      if (!me) return <LoginPage onLogin={login} apiUnavailable={!apiConfigured} />;
 
       const tabs = [
         can(me, "users:read") && { key: "users", label: "Người dùng" },
@@ -274,7 +279,7 @@
       </main>;
     }
 
-    function LoginPage({ onLogin }) {
+    function LoginPage({ onLogin, apiUnavailable }) {
       const [email, setEmail] = useState("");
       const [password, setPassword] = useState("");
       const [error, setError] = useState("");
@@ -298,15 +303,20 @@
       return <main className="login-card">
         <h1>Đăng nhập</h1>
         <p className="muted">Hệ thống quản lý người dùng và phân quyền.</p>
+        {apiUnavailable && <p className="error" role="status">
+          Backend chưa được cấu hình cho website này. Chưa thể đăng nhập; thông tin đăng nhập sẽ không được gửi đi.
+        </p>}
         <form onSubmit={submit}>
           <label htmlFor="login-email">Email</label>
           <input id="login-email" name="email" type="email" autoComplete="username"
-            value={email} onChange={(event) => setEmail(event.target.value)} required />
+            value={email} onChange={(event) => setEmail(event.target.value)} required disabled={apiUnavailable} />
           <label htmlFor="login-password">Mật khẩu</label>
           <input id="login-password" name="password" type="password" autoComplete="current-password"
-            value={password} onChange={(event) => setPassword(event.target.value)} required />
+            value={password} onChange={(event) => setPassword(event.target.value)} required disabled={apiUnavailable} />
           {error && <p className="error" role="alert">{error}</p>}
-          <button className="primary" type="submit" disabled={saving}>{saving ? "Đang đăng nhập…" : "Đăng nhập"}</button>
+          <button className="primary" type="submit" disabled={saving || apiUnavailable}>
+            {saving ? "Đang đăng nhập…" : "Đăng nhập"}
+          </button>
         </form>
       </main>;
     }

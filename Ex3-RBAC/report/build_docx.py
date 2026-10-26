@@ -13,9 +13,9 @@ from docx.shared import Inches, Pt, RGBColor
 REPORT_DIR = Path(__file__).resolve().parent
 PROJECT_DIR = REPORT_DIR.parent
 REPOSITORY_DIR = PROJECT_DIR.parent
-MARKDOWN_PATH = REPORT_DIR / "Ex3-RBAC-MSSV-HoTen.md"
-TEMPLATE_PATH = REPOSITORY_DIR / "Ex3-RBAC-MaSV-HoTenSV.docx"
-OUTPUT_PATH = REPORT_DIR / "Ex3-RBAC-MSSV-HoTen.docx"
+MARKDOWN_PATH = REPOSITORY_DIR / "Ex3-RBAC-2025229M-PhamQuangAnh.md"
+TEMPLATE_PATH = REPOSITORY_DIR / "Example-ex3" / "Ex3-RBAC-MaSV-HoTenSV.docx"
+OUTPUT_PATH = REPOSITORY_DIR / "Ex3-RBAC-2025229M-PhamQuangAnh.docx"
 
 
 def clear_body(document):
