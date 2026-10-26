@@ -30,12 +30,12 @@ See [`render.env.example`](../render.env.example) for the Render variable names 
 - Add the exact HTTPS frontend origin to backend `CORS_ORIGINS` and redeploy the backend.
 - Verify the preflight response for `Authorization`, `Content-Type`, `PATCH`, `PUT`, and `DELETE`; ensure `Location` is exposed for 201 responses.
 
-The backend is deployed at `https://web-and-services-rbac.onrender.com`, with MongoDB Atlas configured. The health endpoint, protected-route authorization response, and allowed/disallowed CORS preflight behavior have been verified. Commit `fdd3c28` is published on Pages and the served config targets the Render API. Account login and the full Postman suite still require separate verification with seeded demo users.
+The backend is deployed at `https://web-and-services-rbac.onrender.com`, with MongoDB Atlas configured. The health endpoint, protected-route authorization response, and allowed/disallowed CORS preflight behavior have been verified. Commit `fdd3c28` is published on Pages and the served config targets the Render API. Four seeded demo accounts were verified against hosted login and `/me`; all 24 corresponding API scenarios passed against the live service using a temporary HTTP harness. A Postman Collection Runner screenshot has not been captured.
 
 ## Before sharing the deployment
 
-- Create separate authorized accounts for super-admin, user-manager, auditor, and member; do not reuse personal passwords.
-- Verify every account's actual permission matrix and test T01–T24 against the deployed URL.
+- Demo accounts for super-admin, user-manager, auditor, and member are seeded; do not reuse personal passwords.
+- Test T01–T24 against the deployed URL using disposable accounts.
 - Check the actual HTTPS origins, status codes, `Location` header, mobile layout, and application logs.
 - Capture the assignment screenshots yourself and redact passwords, full tokens, connection strings, and secrets.
 - Record actual deployment URLs, commit hash, timing measurements, and incident history only after observing them.

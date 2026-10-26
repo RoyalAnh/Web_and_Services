@@ -16,7 +16,7 @@ This is a local integration/unit test run. It is not evidence that the hosted AP
 - Seed was run twice against a temporary database: the first run created 10 permissions, 5 roles, and 4 demo users; the second run did not create duplicate users. The temporary seed database was removed after verification.
 - Local CORS preflight returned HTTP 204 with the expected allow-origin, methods, headers, and exposed `Location` header.
 - Browser smoke checks covered manager login, role loading, validation feedback, member permission-gated navigation, and a 375 px viewport.
-- The Postman collection contains 24 requests with assertions, but has **not** been run against an online host.
+- The Postman collection contains 24 requests with assertions. The collection's own Postman Runner has not been run online; an independent HTTP harness later exercised all 24 corresponding API scenarios against the hosted service (results below).
 
 ## Hosted static frontend
 
@@ -27,7 +27,7 @@ This is a local integration/unit test run. It is not evidence that the hosted AP
 - `https://www.pqahust.dev/health` and `/Ex3-RBAC/health` return HTTP 404 from the static Pages site; these are not backend health responses and confirm no API service is mounted at those Pages routes.
 - `/Ex3-RBAC/health` returns the static host's 404, not an API health response; use the Render service's `/health` endpoint instead.
 - Commit `fdd3c285c94320d20a4e64cbbaf1fd833cae1694` configures the frontend to use Render on non-loopback hosts. After publishing, a cache-busted fetch of the live Pages config returned `https://web-and-services-rbac.onrender.com/api/v1`; the hosted login page loaded in the browser.
-- Local browser testing previously verified the safe disabled-login state for an unconfigured remote API. The live source now preserves the local API URL on loopback hosts and selects the Render API elsewhere. Authenticated login remains unverified.
+- Local browser testing previously verified the safe disabled-login state for an unconfigured remote API. The live source now preserves the local API URL on loopback hosts and selects the Render API elsewhere.
 
 ## Hosted API and Atlas
 
@@ -36,11 +36,27 @@ This is a local integration/unit test run. It is not evidence that the hosted AP
 - `GET /health`: HTTP 200 with `{"status":"ok"}`. Because the server waits for `mongoose.connect()` before listening, successful startup also confirms the configured Atlas connection succeeded at that time.
 - `GET /api/v1/users` without a token: HTTP 401, as expected for a protected API.
 - OPTIONS preflight from `https://www.pqahust.dev` to the API: HTTP 204. Observed headers: `Access-Control-Allow-Origin: https://www.pqahust.dev`; `Access-Control-Allow-Methods: GET,POST,PUT,PATCH,DELETE,OPTIONS`; `Access-Control-Allow-Headers: Authorization,Content-Type`; `Access-Control-Expose-Headers: Location`; `Access-Control-Max-Age: 600`; `Vary: Origin`.
-- No authenticated online login or full Postman T01–T24 run has been recorded yet. Do not treat the anonymous 401/preflight checks as evidence for the full suite.
+- A Postman Collection Runner execution has not been recorded. The direct hosted API suite and seeded-account checks are documented below.
 - During initial Render configuration, observed startup errors were `MONGODB_URI is required` and an Atlas network/IP allowlist connection failure. After environment/network configuration, the service started and the health check passed.
+
+## Online demo account verification
+
+- Seeded the configured Atlas database: 10 permissions, 5 roles, and 4 new users.
+- A local strength check found the initial seed password values were not suitable for the public demo service. Before final login verification, four unique stronger values were set in the ignored local `.env` and the existing account password hashes were updated in a database transaction. No credential values or tokens were logged or included here.
+- Tested each account against hosted `POST /api/v1/auth/tokens` and authenticated `GET /api/v1/me`: all four login requests and `/me` requests returned HTTP 200.
+- Permission checks passed: super-admin has 10 permissions including `users:delete` and `roles:update`; user-manager has 6 including `users:create` and excluding `users:delete`; auditor has 3 including `users:read` and excluding `users:update`; member has 0 permissions.
+- These targeted login/authorization checks passed online.
+
+## Hosted T01–T24 API scenarios
+
+- Executed all 24 corresponding HTTP scenarios and status/error assertions against the Render API using a temporary local harness and disposable test accounts: **24/24 passed**.
+- The run covered unauthenticated and role-limited access, pagination/search/validation, create/update and duplicate behavior, privilege escalation prevention, idempotent role assignment, immediate permission revocation, soft-delete behavior, protected system roles, invalid permissions, spoofed role headers, and malformed JSON.
+- Refined T04 to search for the actual seeded `Demo` accounts and require at least one matching result. Reordered T16 before T15 so manager delete denial is checked before revoking the disposable manager's role; verified both cases and immediate revocation against the live API.
+- Temporary test users were deleted or soft-deleted; a follow-up query found no active disposable accounts. All four seeded demo accounts were then re-verified successfully.
+- This was not a Postman/Newman Collection Runner execution and no Collection Runner screenshot was captured. The project's collection remains available for a separate UI-run if required by the submission.
 
 ## Not verified
 
-- Authenticated online login and Postman T01–T24 against the deployed API
+- Postman/Newman Collection Runner execution and screenshot (the matching hosted API cases passed via a separate HTTP harness)
 - Atlas behavior, online performance measurements, or idle/sleep behavior
 - Submission screenshots, student identity, and personal deployment choices

@@ -43,8 +43,8 @@
     },
     {
       "name": "T04 — search and active filter",
-      "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{auditorToken}}" }], "url": "{{baseUrl}}/api/v1/users?q=nguyen&status=active" },
-      "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('200 and every result matches filters', function () { pm.response.to.have.status(200); pm.response.json().data.forEach(function (u) { pm.expect(u.status).to.eql('active'); pm.expect((u.fullName + ' ' + u.email).toLowerCase()).to.include('nguyen'); }); });"] } }]
+      "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{auditorToken}}" }], "url": "{{baseUrl}}/api/v1/users?q=demo&status=active" },
+      "event": [{"listen":"test","script":{"type":"text/javascript","exec":["pm.test('200 and every result matches filters', function () { pm.response.to.have.status(200); var results = pm.response.json().data; pm.expect(results.length).to.be.greaterThan(0); results.forEach(function (u) { pm.expect(u.status).to.eql('active'); pm.expect((u.fullName + ' ' + u.email).toLowerCase()).to.include('demo'); }); });"]}}]
     },
     {
       "name": "T05 — invalid limit",
@@ -137,16 +137,16 @@
       "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('403 PRIVILEGE_ESCALATION', function () { pm.response.to.have.status(403); pm.expect(pm.response.json().error.code).to.eql('PRIVILEGE_ESCALATION'); });"] } }]
     },
     {
+      "name": "T16 — manager cannot delete users",
+      "request": { "method": "DELETE", "header": [{ "key": "Authorization", "value": "Bearer {{managerToken}}" }], "url": "{{baseUrl}}/api/v1/users/{{createdUserId}}" },
+      "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('403 FORBIDDEN', function () { pm.response.to.have.status(403); pm.expect(pm.response.json().error.code).to.eql('FORBIDDEN'); });"] } }]
+    },
+    {
       "name": "T15 — revoked role has immediate effect",
       "request": { "method": "DELETE", "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }], "url": "{{baseUrl}}/api/v1/users/{{managerUserId}}/roles/{{managerRoleId}}" },
       "event": [
         { "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('role revocation is 204', function () { pm.response.to.have.status(204); });", "pm.sendRequest({ url: pm.collectionVariables.get('baseUrl') + '/api/v1/users', method: 'GET', header: { Authorization: 'Bearer ' + pm.collectionVariables.get('managerToken') } }, function (err, response) { pm.test('old token is denied immediately', function () { pm.expect(err).to.eql(null); pm.expect(response.code).to.eql(403); pm.expect(response.json().error.code).to.eql('FORBIDDEN'); }); });"] } }
       ]
-    },
-    {
-      "name": "T16 — manager cannot delete users",
-      "request": { "method": "DELETE", "header": [{ "key": "Authorization", "value": "Bearer {{managerToken}}" }], "url": "{{baseUrl}}/api/v1/users/{{createdUserId}}" },
-      "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('403 FORBIDDEN', function () { pm.response.to.have.status(403); pm.expect(pm.response.json().error.code).to.eql('FORBIDDEN'); });"] } }]
     },
     {
       "name": "T17 — soft delete, get and login behavior",

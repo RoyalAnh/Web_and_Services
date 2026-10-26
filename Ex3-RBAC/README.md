@@ -69,16 +69,18 @@ Integration tests use a disposable database named `it4409_rbac_test_<process id>
 
 ## Postman T01–T24
 
-Import `postman/RBAC-T01-T24.postman_collection.json`. Configure its collection variables before running the requests sequentially:
+Import `postman/RBAC-T01-T24.postman_collection.json`. See [`docs/postman-online-test-guide.md`](./docs/postman-online-test-guide.md) for setup, disposable-account requirements, expected status/body for every case, curl.exe examples, and screenshot guidance.
+
+Configure the collection variables before running the requests sequentially:
 
 - `baseUrl`: API origin without `/api/v1`.
-- `adminToken`, `managerToken`, `auditorToken`, `memberToken`: access tokens obtained by logging into the four seeded accounts.
-- `managerUserId`, `superAdminRoleId`, `managerRoleId`, `auditorRoleId`, `memberRoleId`: IDs from `/me` and `/roles`.
+- `adminToken`, `auditorToken`, `memberToken`: access tokens obtained by logging into the seeded accounts.
+- `managerToken`, `managerUserId`: token and ID of a disposable manager account; T15 revokes its manager role.
+- `superAdminRoleId`, `managerRoleId`, `auditorRoleId`, `memberRoleId`: IDs from `/roles`.
 - `softDeleteUserId`, `softDeleteEmail`, `softDeletePassword`: a disposable, non-super-admin user and its local test credentials.
-- `roleInUseId`: a custom role currently assigned to a non-deleted user.
-- `customRoleId`: a non-system role for T22.
+- `roleInUseId`, `customRoleId`: ID of `support-observer`, a non-system role assigned to a non-deleted user.
 
-T06 records `createdUserId` and a unique `testEmail` for subsequent requests. The Postman collection is prepared but has not been run against an online deployment. Use disposable test accounts because T15 revokes the manager role and T17 soft-deletes a user.
+T06 records `createdUserId` and a unique `testEmail` for subsequent requests. T16 runs before T15 so it verifies the manager cannot delete users while holding the manager role; T15 then revokes that role and confirms the old token is denied immediately. T17 soft-deletes a separate disposable user. Do not use the primary demo manager account for T15.
 
 ## Deployment
 
