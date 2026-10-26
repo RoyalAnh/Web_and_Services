@@ -25,13 +25,22 @@ This is a local integration/unit test run. It is not evidence that the hosted AP
 - `https://www.pqahust.dev/Ex3-RBAC/frontend/index.html`: HTTP 200; browser loaded the RBAC login screen. The `/Ex3-RBAC/` directory URL renders the repository README instead.
 - The Pages workflow for cleanup commit `bee198c1104494ffdad75099a1da2c7e65ea32fc` completed successfully (build, deploy, and report jobs).
 - `https://www.pqahust.dev/health` and `/Ex3-RBAC/health` return HTTP 404 from the static Pages site; these are not backend health responses and confirm no API service is mounted at those Pages routes.
-- No backend host/API URL or database host is configured. The published commit's `frontend/config.js` still defaults to `http://localhost:3001/api/v1`; therefore hosted login/API behavior, online CORS, and Postman cannot be verified. A request to `/Ex3-RBAC/health` returns the static host's 404, not an API health response.
-- Commit `d4e84bdca7da5cb7c613095ab626590afda5359e` includes a safeguard that leaves the API base empty on non-local origins and disables login with an explicit message. This prevents credentials from being sent to a visitor's own localhost. The Pages build/deploy for this commit was not yet confirmed when this report update was written.
-- Local browser smoke check at `http://rbac.localhost:8734/index.html` showed the missing-backend warning and disabled email, password, and submit controls. A Node VM check confirmed loopback hosts retain the local API URL while `rbac.localhost` and `www.pqahust.dev` remain unconfigured.
+- `/Ex3-RBAC/health` returns the static host's 404, not an API health response; use the Render service's `/health` endpoint instead.
+- The currently published `frontend/config.js` still leaves the API base empty on non-local origins, so the live Pages page is not yet connected to Render. The local source has now been changed to use the Render API on non-loopback hosts; publish this update and verify it from the browser before claiming the hosted login UI is connected.
+- Local browser testing previously verified the safe disabled-login state for an unconfigured remote API. The current source preserves the local API URL on loopback hosts and selects the Render API elsewhere.
+
+## Hosted API and Atlas
+
+- Render service URL: `https://web-and-services-rbac.onrender.com`.
+- Render logs confirm the API started and the service became live on October 26, 2026 using commit `6002ff3da3e6c9a1ae7d57f741c5ce01412214e6`.
+- `GET /health`: HTTP 200 with `{"status":"ok"}`. Because the server waits for `mongoose.connect()` before listening, successful startup also confirms the configured Atlas connection succeeded at that time.
+- `GET /api/v1/users` without a token: HTTP 401, as expected for a protected API.
+- OPTIONS preflight from `https://www.pqahust.dev` to the API: HTTP 204. Observed headers: `Access-Control-Allow-Origin: https://www.pqahust.dev`; `Access-Control-Allow-Methods: GET,POST,PUT,PATCH,DELETE,OPTIONS`; `Access-Control-Allow-Headers: Authorization,Content-Type`; `Access-Control-Expose-Headers: Location`; `Access-Control-Max-Age: 600`; `Vary: Origin`.
+- No authenticated online login or full Postman T01–T24 run has been recorded yet. Do not treat the anonymous 401/preflight checks as evidence for the full suite.
+- During initial Render configuration, observed startup errors were `MONGODB_URI is required` and an Atlas network/IP allowlist connection failure. After environment/network configuration, the service started and the health check passed.
 
 ## Not verified
 
-- Backend/API and database deployment, production API URL, backend CORS and health checks
-- Postman T01–T24 against a deployed backend
+- Authenticated online login and Postman T01–T24 against the deployed API
 - Atlas behavior, online performance measurements, or idle/sleep behavior
 - Submission screenshots, student identity, and personal deployment choices

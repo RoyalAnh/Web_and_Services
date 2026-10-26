@@ -14,12 +14,13 @@ Status meanings: **PASS** = completed and verified; **PARTIAL** = implementation
 | Main report (Markdown) | PARTIAL | Written from available evidence; personal identity, deployment facts, real screenshots, and student answers remain placeholders. |
 | Word report generated from the provided template | PASS | The builder reads the repository-root report Markdown and writes `Ex3-RBAC-2025229M-PhamQuangAnh.docx` beside it. |
 | Test results and evidence boundaries documented | PASS | See `test-results.md`. |
-| Static frontend deployment | PASS | GitHub Pages serves the login UI at `https://www.pqahust.dev/Ex3-RBAC/frontend/index.html`; HTTP 200, browser smoke check, and Pages deployment workflow succeeded for commit `bee198c`. |
-| Preventing login attempts without a configured remote API | PASS (local change only) | Local browser check confirms the warning and disabled login controls; not yet published. |
-| Backend/API and database deployment | BLOCKED | No backend/database host or API URL is available. The latest source commit blocks remote login until an API is configured; Pages deployment for the latest commit still needs confirmation. |
-| Online CORS, API health and Postman T01–T24 | BLOCKED | Cannot run without an online backend/API. |
+| Static frontend deployment | PASS | GitHub Pages serves the RBAC UI at `https://www.pqahust.dev/Ex3-RBAC/frontend/index.html`; HTTP 200 and browser smoke check. |
+| Backend and MongoDB Atlas deployment | PASS | Render service `https://web-and-services-rbac.onrender.com` started successfully; `/health` returned HTTP 200. |
+| Frontend-to-API configuration | PARTIAL | Source config now targets Render API on non-local hosts; Pages deployment and browser network check after this latest source change still need confirmation. |
+| Anonymous API authorization and CORS preflight | PASS | Protected `/api/v1/users` returns 401 without token; allowed-origin OPTIONS preflight returns 204 with expected CORS headers. |
+| Authenticated online login and Postman T01–T24 | UNVERIFIED | Needs seeded demo users and an online collection run. |
 | Online screenshots and performance measurements | UNVERIFIED | Must be captured/measured on the student's actual deployment. |
 | Student name, ID, account credentials, and self-evaluation | BLOCKED | Supply and complete privately; do not include real passwords in submitted documentation. |
 | Removal of mistakenly pushed duplicate old folder | PASS | Commit `bee198c1104494ffdad75099a1da2c7e65ea32fc` deletes only the 27 old-path files; `Ex3-RBAC` remains. |
 
-Before submission, deploy the backend and database using authorized accounts, update the frontend API URL, run the Postman collection against the actual API, and add genuine screenshots/results. Personally review and answer the reflection prompts; do not present local results as online evidence.
+Before submission, verify the latest GitHub Pages config is live, seed authorized demo accounts, run the Postman collection against the actual API, and add genuine screenshots/results. Personally review and answer the reflection prompts; do not present local results as online evidence.

@@ -1,6 +1,6 @@
 # Deployment guide
 
-This guide describes the remaining backend/database deployment path. The static frontend is already published from the repository through GitHub Pages; that does not run the Express API or MongoDB. Do not place secrets in source control or in the report.
+This guide records the deployment setup for the project. The static frontend is published through GitHub Pages; the Express API runs on Render and connects to MongoDB Atlas. Do not place secrets in source control or in the report.
 
 ## MongoDB Atlas
 
@@ -26,11 +26,11 @@ See [`render.env.example`](../render.env.example) for the Render variable names 
 - The current frontend page is `https://www.pqahust.dev/Ex3-RBAC/frontend/index.html`.
 - The repository path `https://www.pqahust.dev/Ex3-RBAC/` renders the project README, not the React application.
 - GitHub Pages serves static files only; it does not start the Express API or MongoDB.
-- Update `frontend/config.js` to the API base URL ending in `/api/v1`, then publish the static files.
+- `frontend/config.js` keeps loopback development on `http://localhost:3001/api/v1` and selects `https://web-and-services-rbac.onrender.com/api/v1` on other hosts. Publish the static files after changing frontend configuration.
 - Add the exact HTTPS frontend origin to backend `CORS_ORIGINS` and redeploy the backend.
 - Verify the preflight response for `Authorization`, `Content-Type`, `PATCH`, `PUT`, and `DELETE`; ensure `Location` is exposed for 201 responses.
 
-No backend API URL or database host has been configured. The latest source commit leaves the API base unset on non-local hosts, disables the login form, and explains that the backend is unavailable. GitHub Pages deployment follows the push and may take a few minutes. After a backend is deployed, set `window.RBAC_API_BASE` in `frontend/config.js`, publish the updated frontend, and verify login before sharing the URL.
+The backend is deployed at `https://web-and-services-rbac.onrender.com`, with MongoDB Atlas configured. The health endpoint, protected-route authorization response, and allowed/disallowed CORS preflight behavior have been verified. The latest frontend source configuration is not yet confirmed live on Pages. Account login and the full Postman suite still require separate verification with seeded demo users.
 
 ## Before sharing the deployment
 
