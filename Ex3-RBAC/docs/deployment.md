@@ -30,7 +30,7 @@ See [`render.env.example`](../render.env.example) for the Render variable names 
 - Add the exact HTTPS frontend origin to backend `CORS_ORIGINS` and redeploy the backend.
 - Verify the preflight response for `Authorization`, `Content-Type`, `PATCH`, `PUT`, and `DELETE`; ensure `Location` is exposed for 201 responses.
 
-No backend API URL or database host has been configured. The published source commit still defaults to `http://localhost:3001/api/v1`; a local, not-yet-pushed frontend change now leaves the API base unset on non-local hosts, disables the login form, and explains that the backend is unavailable. After a backend is deployed, set `window.RBAC_API_BASE` in `frontend/config.js`, publish the updated frontend, and verify login before sharing the URL.
+No backend API URL or database host has been configured. The latest source commit leaves the API base unset on non-local hosts, disables the login form, and explains that the backend is unavailable. GitHub Pages deployment follows the push and may take a few minutes. After a backend is deployed, set `window.RBAC_API_BASE` in `frontend/config.js`, publish the updated frontend, and verify login before sharing the URL.
 
 ## Before sharing the deployment
 

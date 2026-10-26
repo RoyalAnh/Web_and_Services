@@ -26,7 +26,7 @@ This is a local integration/unit test run. It is not evidence that the hosted AP
 - The Pages workflow for cleanup commit `bee198c1104494ffdad75099a1da2c7e65ea32fc` completed successfully (build, deploy, and report jobs).
 - `https://www.pqahust.dev/health` and `/Ex3-RBAC/health` return HTTP 404 from the static Pages site; these are not backend health responses and confirm no API service is mounted at those Pages routes.
 - No backend host/API URL or database host is configured. The published commit's `frontend/config.js` still defaults to `http://localhost:3001/api/v1`; therefore hosted login/API behavior, online CORS, and Postman cannot be verified. A request to `/Ex3-RBAC/health` returns the static host's 404, not an API health response.
-- A local, unpushed change now leaves the API base empty on non-local origins and disables login with an explicit message. This prevents credentials from being sent to a visitor's own localhost; the change is not live until the project changes are committed and pushed.
+- Commit `d4e84bdca7da5cb7c613095ab626590afda5359e` includes a safeguard that leaves the API base empty on non-local origins and disables login with an explicit message. This prevents credentials from being sent to a visitor's own localhost. The Pages build/deploy for this commit was not yet confirmed when this report update was written.
 - Local browser smoke check at `http://rbac.localhost:8734/index.html` showed the missing-backend warning and disabled email, password, and submit controls. A Node VM check confirmed loopback hosts retain the local API URL while `rbac.localhost` and `www.pqahust.dev` remain unconfigured.
 
 ## Not verified

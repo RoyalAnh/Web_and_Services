@@ -16,7 +16,7 @@ Status meanings: **PASS** = completed and verified; **PARTIAL** = implementation
 | Test results and evidence boundaries documented | PASS | See `test-results.md`. |
 | Static frontend deployment | PASS | GitHub Pages serves the login UI at `https://www.pqahust.dev/Ex3-RBAC/frontend/index.html`; HTTP 200, browser smoke check, and Pages deployment workflow succeeded for commit `bee198c`. |
 | Preventing login attempts without a configured remote API | PASS (local change only) | Local browser check confirms the warning and disabled login controls; not yet published. |
-| Backend/API and database deployment | BLOCKED | No backend/database host or API URL is available. The published commit still uses localhost; the unpushed frontend change blocks login on remote origins until configured. |
+| Backend/API and database deployment | BLOCKED | No backend/database host or API URL is available. The latest source commit blocks remote login until an API is configured; Pages deployment for the latest commit still needs confirmation. |
 | Online CORS, API health and Postman T01–T24 | BLOCKED | Cannot run without an online backend/API. |
 | Online screenshots and performance measurements | UNVERIFIED | Must be captured/measured on the student's actual deployment. |
 | Student name, ID, account credentials, and self-evaluation | BLOCKED | Supply and complete privately; do not include real passwords in submitted documentation. |
