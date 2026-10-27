@@ -34,6 +34,21 @@ def plain_text(value):
     return value.strip()
 
 
+def add_markdown_image(document, line):
+    match = re.fullmatch(r"!\[([^]]*)\]\(([^)]+)\)", line.strip())
+    if not match:
+        return False
+    image_path = (REPOSITORY_DIR / match.group(2)).resolve()
+    if not image_path.is_relative_to(REPOSITORY_DIR.resolve()):
+        raise ValueError(f"Report image must be inside the repository: {match.group(2)}")
+    if not image_path.is_file():
+        raise FileNotFoundError(f"Report image not found: {image_path}")
+    paragraph = document.add_paragraph()
+    paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    paragraph.add_run().add_picture(str(image_path), width=Inches(5.8))
+    return True
+
+
 def parse_table_row(line):
     return [cell.strip() for cell in line.strip().strip("|").split("|")]
 
@@ -154,6 +169,11 @@ def build():
             continue
         if in_code:
             code_lines.append(line)
+            index += 1
+            continue
+        if stripped.startswith("!["):
+            if not add_markdown_image(document, stripped):
+                raise ValueError(f"Unsupported Markdown image syntax: {stripped}")
             index += 1
             continue
         if not stripped or stripped in {"---", "***"}:

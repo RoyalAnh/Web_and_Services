@@ -6,4 +6,5 @@ node_modules/
 atlas-credentials.env
 coverage/
 report/*.pdf
+report/evidence/
 *.log

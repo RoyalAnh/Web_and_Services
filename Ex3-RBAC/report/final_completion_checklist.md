@@ -1,6 +1,6 @@
 # Final Completion Checklist
 
-Status meanings: **PASS** = completed and verified; **PARTIAL** = implementation exists but a required portion remains; **UNVERIFIED** = no evidence was collected; **BLOCKED** = requires user-provided identity, credentials, or external access.
+Status meanings: **PASS** = completed and verified; **PASS (student-reported)** = reported completed by the student but no independent Runner capture was supplied; **PARTIAL** = implementation exists but a required portion remains; **UNVERIFIED** = no evidence was collected; **BLOCKED** = requires user-provided identity, credentials, or external access.
 
 | Item | Status | Evidence / remaining action |
 |---|---|---|
@@ -11,8 +11,8 @@ Status meanings: **PASS** = completed and verified; **PARTIAL** = implementation
 | Seed repeatability | PASS | Two local runs produced no duplicate users; temporary seed database removed. |
 | Local CORS preflight | PASS | Local OPTIONS returned 204 with expected CORS headers. |
 | Hosted API scenarios corresponding to T01–T24 | PASS | Separate local HTTP harness executed all 24 expected cases against Render: 24/24 passed; disposable data was cleaned and demo accounts re-verified. |
-| Postman Collection Runner screenshot | UNVERIFIED | Collection Runner UI was not run/captured; use it if the submission requires that specific evidence. |
-| Main report (Markdown) | PARTIAL | Written from available evidence; personal identity, deployment facts, real screenshots, and student answers remain placeholders. |
+| Postman Collection Runner online execution | PASS (student-reported) | Student reports all 24 online collection cases passed; no Runner summary screenshot was supplied. |
+| Main report (Markdown) | PARTIAL | Core evidence and three role screenshots are inserted; identity, report answers, performance measurements, and reflections still need student review. |
 | Word report generated from the provided template | PASS | The builder reads the repository-root report Markdown and writes `Ex3-RBAC-2025229M-PhamQuangAnh.docx` beside it. |
 | Test results and evidence boundaries documented | PASS | See `test-results.md`. |
 | Static frontend deployment | PASS | GitHub Pages serves the RBAC UI at `https://www.pqahust.dev/Ex3-RBAC/frontend/index.html`; HTTP 200 and browser smoke check. |
@@ -20,10 +20,10 @@ Status meanings: **PASS** = completed and verified; **PARTIAL** = implementation
 | Frontend-to-API configuration | PASS | Commit `fdd3c28` is published; live Pages config targets the Render API on non-local hosts and browser loads the hosted login page. |
 | Anonymous API authorization and CORS preflight | PASS | Protected `/api/v1/users` returns 401 without token; allowed-origin OPTIONS preflight returns 204 with expected CORS headers. |
 | Four online demo account logins and role permissions | PASS | Each seeded demo account logged in (HTTP 200), `/me` returned HTTP 200, and expected role permission checks passed. Passwords are not included in this report. |
-| Postman Collection Runner on the hosted API | UNVERIFIED | A separate HTTP harness verified the corresponding API cases; capture a Postman Runner result only if required. |
-| Three role-specific UI screenshots requested by assignment | UNVERIFIED | Capture super-admin, user-manager, and member screens from the deployed frontend. |
-| Additional online screenshots and performance measurements | UNVERIFIED | Capture only if required by the report/teacher and measure on the student's actual deployment. |
+| Postman Collection Runner on the hosted API | PASS (student-reported) | All cases reportedly passed; direct online HTTP harness independently recorded 24/24. Runner screenshot not supplied. |
+| Three role-specific UI screenshots requested by assignment | PASS | `report/evidence/admin.png`, `manager.png`, and `member.png` are included in the main report. |
+| Additional online screenshots and performance measurements | UNVERIFIED | Not treated as complete unless the report rubric/teacher specifically requires them; required timing measurements remain unfilled. |
 | Student name, ID, account credentials, and self-evaluation | BLOCKED | Supply and complete privately; do not include real passwords in submitted documentation. |
 | Removal of mistakenly pushed duplicate old folder | PASS | Commit `bee198c1104494ffdad75099a1da2c7e65ea32fc` deletes only the 27 old-path files; `Ex3-RBAC` remains. |
 
-Before submission, capture the three genuine role-specific UI screenshots requested in the assignment, then add any extra evidence the report/teacher requires. Personally review and answer the reflection prompts; do not present local results as online evidence.
+Before submission, verify the personal information, fill in required performance measurements, and answer the reflection prompts in your own words. Do not treat the reported Postman result as a captured Runner screenshot.

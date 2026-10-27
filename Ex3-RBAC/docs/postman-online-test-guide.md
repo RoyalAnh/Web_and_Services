@@ -484,11 +484,14 @@ PDF đề bài, mục deliverables (trang 42/44), nêu rõ: **“Ảnh chụp gi
 2. **User-manager:** thấy màn hình quản lý user nhưng không có thao tác xóa.
 3. **Member:** chỉ thấy hồ sơ cá nhân, không có quyền quản trị.
 
-Đây là ba ảnh thể hiện ba role khác nhau; không ghép ba role vào cùng một ảnh. Báo cáo hiện có các placeholder S04–S06 tương ứng. Các mục S00–S19 khác trong báo cáo là vị trí minh chứng bổ sung cho kiến trúc, deploy, CORS, CRUD, responsive và test; không nên hiểu rằng dòng yêu cầu trong deliverables tự nó đòi đủ 20 ảnh. Nếu thầy yêu cầu minh chứng sâu hơn, nên bổ sung:
+Chụp ba ảnh riêng, không ghép role vào một ảnh:
 
-- Runner T01–T24 (hoặc ảnh summary và ảnh chi tiết nếu một ảnh không đọc được).
-- Render service live và Atlas đã seed; che secrets/hash nhạy cảm.
-- DevTools Network cho preflight CORS và một request authorization; che hầu hết token.
-- UI responsive trên màn hình nhỏ.
+1. **Super-admin:** vào trang Người dùng hoặc Vai trò; để thấy các chức năng quản trị và nhãn/tên role.
+2. **User-manager:** vào trang Người dùng; để thấy thao tác quản lý được phép và không có nút Xóa.
+3. **Member:** vào Hồ sơ của tôi; để thấy không có tab quản trị và danh sách quyền trống.
 
-Khi chụp, dùng deployment thật, để thấy URL hoặc môi trường khi phù hợp, tránh chụp mật khẩu, Atlas URI, JWT secret hoặc access token dùng được. Không tạo ảnh giả hay thay nội dung trong ảnh.
+Không cần chụp một ảnh cho mỗi request API. Báo cáo đã ghi bảng kết quả T01–T24 và kết quả HTTP trực tiếp **24/24 PASS**; sinh viên cũng xác nhận đã chạy collection online trong Postman và toàn bộ test đạt. Ảnh summary Runner chưa được lưu vào evidence; chỉ chụp thêm nếu giảng viên yêu cầu minh chứng trực quan. Không đưa ảnh Atlas/Render, DevTools Network, token, URI hoặc mật khẩu vào báo cáo nếu đề không yêu cầu rõ.
+
+Ba ảnh role đã được cung cấp và chèn vào báo cáo Markdown/Word: `Ex3-RBAC/report/evidence/admin.png`, `manager.png`, và `member.png`. Người dùng báo cáo đã chạy collection online trong Postman và tất cả test đều pass; ảnh Runner summary không được cung cấp. Nếu giảng viên yêu cầu ảnh kết quả Runner, chụp thêm Summary trong Postman, không thay bằng ảnh từ HTTP harness.
+
+Các vị trí S16–S19 trong phần kiểm thử/phân tích gắn với những thí nghiệm riêng của các câu hỏi báo cáo; chúng không phải yêu cầu chụp ảnh cho từng API. Chỉ bổ sung bằng chứng ở đó nếu bạn thực hiện các thí nghiệm/câu hỏi tương ứng hoặc giảng viên yêu cầu.
