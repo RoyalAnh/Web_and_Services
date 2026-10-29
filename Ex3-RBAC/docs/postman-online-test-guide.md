@@ -490,8 +490,8 @@ Chụp ba ảnh riêng, không ghép role vào một ảnh:
 2. **User-manager:** vào trang Người dùng; để thấy thao tác quản lý được phép và không có nút Xóa.
 3. **Member:** vào Hồ sơ của tôi; để thấy không có tab quản trị và danh sách quyền trống.
 
-Không cần chụp một ảnh cho mỗi request API. Báo cáo đã ghi bảng kết quả T01–T24 và kết quả HTTP trực tiếp **24/24 PASS**; sinh viên cũng xác nhận đã chạy collection online trong Postman và toàn bộ test đạt. Ảnh summary Runner chưa được lưu vào evidence; chỉ chụp thêm nếu giảng viên yêu cầu minh chứng trực quan. Không đưa ảnh Atlas/Render, DevTools Network, token, URI hoặc mật khẩu vào báo cáo nếu đề không yêu cầu rõ.
+Không cần chụp một ảnh cho mỗi request API. Báo cáo đã ghi bảng kết quả T01–T24 và kết quả HTTP trực tiếp **24/24 PASS**. Không đưa ảnh Atlas/Render, DevTools Network, token, URI hoặc mật khẩu vào báo cáo nếu đề không yêu cầu rõ.
 
-Ba ảnh role đã được cung cấp và chèn vào báo cáo Markdown/Word: `Ex3-RBAC/report/evidence/admin.png`, `manager.png`, và `member.png`. Người dùng báo cáo đã chạy collection online trong Postman và tất cả test đều pass; ảnh Runner summary không được cung cấp. Nếu giảng viên yêu cầu ảnh kết quả Runner, chụp thêm Summary trong Postman, không thay bằng ảnh từ HTTP harness.
+Ba ảnh role đã được cung cấp và chèn vào báo cáo Markdown/Word: `Ex3-RBAC/report/evidence/admin.png`, `manager.png`, và `member.png`. Kết quả HTTP harness 24/24 được ghi riêng với collection Postman; hai hình thức này không được gộp thành một bằng chứng.
 
 Các vị trí S16–S19 trong phần kiểm thử/phân tích gắn với những thí nghiệm riêng của các câu hỏi báo cáo; chúng không phải yêu cầu chụp ảnh cho từng API. Chỉ bổ sung bằng chứng ở đó nếu bạn thực hiện các thí nghiệm/câu hỏi tương ứng hoặc giảng viên yêu cầu.

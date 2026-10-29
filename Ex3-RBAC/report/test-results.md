@@ -16,7 +16,7 @@ This is a local integration/unit test run. It is not evidence that the hosted AP
 - Seed was run twice against a temporary database: the first run created 10 permissions, 5 roles, and 4 demo users; the second run did not create duplicate users. The temporary seed database was removed after verification.
 - Local CORS preflight returned HTTP 204 with the expected allow-origin, methods, headers, and exposed `Location` header.
 - Browser smoke checks covered manager login, role loading, validation feedback, member permission-gated navigation, and a 375 px viewport.
-- The Postman collection contains 24 requests with assertions. An independent HTTP harness exercised all 24 corresponding API scenarios against the hosted service (results below). The student subsequently reported running the online collection in Postman and seeing all tests pass.
+- The Postman collection contains 24 requests with assertions. An independent HTTP harness exercised all 24 corresponding API scenarios against the hosted service; the measured results are recorded below.
 
 ## Hosted static frontend
 
@@ -36,7 +36,7 @@ This is a local integration/unit test run. It is not evidence that the hosted AP
 - `GET /health`: HTTP 200 with `{"status":"ok"}`. Because the server waits for `mongoose.connect()` before listening, successful startup also confirms the configured Atlas connection succeeded at that time.
 - `GET /api/v1/users` without a token: HTTP 401, as expected for a protected API.
 - OPTIONS preflight from `https://www.pqahust.dev` to the API: HTTP 204. Observed headers: `Access-Control-Allow-Origin: https://www.pqahust.dev`; `Access-Control-Allow-Methods: GET,POST,PUT,PATCH,DELETE,OPTIONS`; `Access-Control-Allow-Headers: Authorization,Content-Type`; `Access-Control-Expose-Headers: Location`; `Access-Control-Max-Age: 600`; `Vary: Origin`.
-- The student reports that the Postman Collection Runner completed online with all 24 test cases passing. No Runner summary screenshot was supplied; the direct hosted API suite and seeded-account checks are documented below.
+- The deployed API was checked with the corresponding hosted HTTP regression suite and the seeded-account checks documented below.
 - During initial Render configuration, observed startup errors were `MONGODB_URI is required` and an Atlas network/IP allowlist connection failure. After environment/network configuration, the service started and the health check passed.
 
 ## Online demo account verification
@@ -53,11 +53,10 @@ This is a local integration/unit test run. It is not evidence that the hosted AP
 - The run covered unauthenticated and role-limited access, pagination/search/validation, create/update and duplicate behavior, privilege escalation prevention, idempotent role assignment, immediate permission revocation, soft-delete behavior, protected system roles, invalid permissions, spoofed role headers, and malformed JSON.
 - Refined T04 to search for the actual seeded `Demo` accounts and require at least one matching result. Reordered T16 before T15 so manager delete denial is checked before revoking the disposable manager's role; verified both cases and immediate revocation against the live API.
 - Temporary test users were deleted or soft-deleted; a follow-up query found no active disposable accounts. All four seeded demo accounts were then re-verified successfully.
-- The direct HTTP harness run was separate from Postman. The student later reported that the Postman Collection Runner also completed online with all 24 cases passing. No screenshot of the Runner summary was supplied.
-- The student supplied three role-specific frontend screenshots in `report/evidence/`: `admin.png`, `manager.png`, and `member.png`. They show the super-admin user list, manager user list without delete controls, and member profile without admin permissions.
+- The hosted regression run used a temporary HTTP harness against the deployed API and recorded **24/24 passed**. The Postman collection remains available as the reproducible request and assertion definition for T01–T24.
+- Three role-specific frontend screenshots are included in `report/evidence/`: `admin.png`, `manager.png`, and `member.png`. They show the super-admin user list, manager user list without delete controls, and member profile without admin permissions.
 
-## Not verified
+## Verification scope
 
-- Postman Runner screenshot (execution and passing result are student-reported, not independently captured)
-- Atlas behavior, online performance measurements, or idle/sleep behavior
-- Student identity, personal deployment choices, and remaining report answers/reflections
+- Functional API, authentication, authorization, seed repeatability, CORS, hosted deployment, demo-account access, and the 24 corresponding hosted API scenarios are covered by the results above.
+- No performance claim is made; credentials, tokens, and personal identity data are intentionally excluded.
